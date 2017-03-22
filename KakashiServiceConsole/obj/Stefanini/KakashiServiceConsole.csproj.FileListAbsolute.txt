@@ -1,0 +1,7 @@
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Stefanini\KakashiServiceConsole.exe.config
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Stefanini\KakashiServiceConsole.exe
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Stefanini\KakashiServiceConsole.pdb
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Stefanini\Microsoft.Web.Administration.dll
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Stefanini\System.Management.Automation.dll
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\obj\Stefanini\KakashiServiceConsole.exe
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\obj\Stefanini\KakashiServiceConsole.pdb

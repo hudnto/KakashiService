@@ -1,0 +1,8 @@
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Ceub\KakashiServiceConsole.exe.config
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Ceub\KakashiServiceConsole.exe
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Ceub\KakashiServiceConsole.pdb
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Ceub\Microsoft.Web.Administration.dll
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\bin\Ceub\System.Management.Automation.dll
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\obj\Ceub\KakashiServiceConsole.csprojResolveAssemblyReference.cache
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\obj\Ceub\KakashiServiceConsole.exe
+C:\Users\lcramos1\Documents\Visual Studio 2013\Projects\KakashiService\KakashiServiceConsole\obj\Ceub\KakashiServiceConsole.pdb

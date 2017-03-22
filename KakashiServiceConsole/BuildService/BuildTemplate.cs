@@ -1,0 +1,91 @@
+﻿using KakashiServiceConsole.ReadService;
+using System;
+using System.IO;
+using System.Linq;
+using System.Management.Automation;
+using System.Reflection;
+
+namespace KakashiServiceConsole.BuildService
+{
+    public static class BuildTemplate
+    {
+        // using SvcUtil
+        public static void CreateProxyClass(ServiceObject service)
+        {
+            String command = String.Empty;
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "KakashiServiceConsole.BuildService.svcutil.ps1";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                command = reader.ReadToEnd();
+            }
+
+            command = command.Replace("@svcutilPath", service.SvcUtilPath);
+            command = command.Replace("@projectPath", service.Path);
+            command = command.Replace("@url", service.Url);
+            command = command.Replace("@originService", service.OriginServiceName);
+
+
+            using (PowerShell shell = PowerShell.Create())
+            {
+                shell.Commands.AddScript(command);
+
+                var results = shell.Invoke();
+                var errors = shell.Streams.Error.ToList();
+            }
+        }
+
+        public static void Build(string projectPath, string msbuildPath)
+        {
+            String command = String.Empty;
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "KakashiServiceConsole.BuildService.build.ps1";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                command = reader.ReadToEnd();
+            }
+
+            command = command.Replace("@msbuildPath", msbuildPath);
+            command = command.Replace("@projectPath", projectPath);
+
+            using (PowerShell shell = PowerShell.Create())
+            {
+                shell.Commands.AddScript(command);
+
+                var results = shell.Invoke();
+                var errors = shell.Streams.Error.ToList();
+            }
+        }
+
+        public static void MoveBin(string source, string destin)
+        {
+            String command = String.Empty;
+
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "KakashiServiceConsole.BuildService.moveBin.ps1";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                command = reader.ReadToEnd();
+            }
+
+            command = command.Replace("{path}", source);
+            command = command.Replace("{isspath}", destin);
+
+            using (PowerShell shell = PowerShell.Create())
+            {
+                shell.Commands.AddScript(command);
+
+                var results = shell.Invoke();
+                var errors = shell.Streams.Error.ToList();
+            }
+        }
+    }
+}
