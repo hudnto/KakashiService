@@ -18,7 +18,7 @@ namespace KakashiServiceConsole
             serviceObject.Path = @"C:\Users\lcramos1\Desktop\Kakashi";
             serviceObject.Namespace = "Kakashi";
 
-            serviceObject.Url = "http://localhost:40799/ServicoData.svc?wsdl";//"http://www.dneonline.com/calculator.asmx?wsdl";
+            serviceObject.Url = "http://www.dneonline.com/calculator.asmx?wsdl";
 
             serviceObject.IISPath = ConfigurationManager.AppSettings["iisPath"];
             serviceObject.MsBuildPath = ConfigurationManager.AppSettings["msbuildPath"];
@@ -62,9 +62,9 @@ namespace KakashiServiceConsole
 
             var xsd = Util.GetXsdInicial(serviceDescription);
 
-            var operacoes = Util.BuscarOperacoes(serviceDescription);
+            var operacoes = Util.GetOperations(serviceDescription);
 
-            serviceObject.Functions = Util.ExtrairFuncaoXml(xsd, operacoes);
+            serviceObject.Functions = Util.ExtractFunctionFromXml(xsd, operacoes);
             serviceObject.OriginServiceName = serviceDescription.Name;
         }
 

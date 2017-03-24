@@ -10,7 +10,7 @@
         public Parameter(int order, string tipo)
         {
             Order = order;
-            Type = Util.GetTipoVariavel(tipo);
+            Type = Util.GetVariableType(tipo);
         }
 
         public int Order { get; set; }

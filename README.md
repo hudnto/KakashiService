@@ -1,6 +1,7 @@
 # KakashiService
-A service that clones other services. Inspired in the ninja Kakashi from Naruto
+A service that clones other services. 
 This project is for everyone that depends on a service that keep falling or wants to cache a service.
+(Inspired in the ninja Hatake Kakashi from Naruto)
 
 ## Main Modules
 ### 1 - Read Module

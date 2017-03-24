@@ -57,7 +57,7 @@ namespace KakashiServiceConsole.ReadService
             return xmlDocument;
         }
 
-        public static List<String> BuscarOperacoes(ServiceDescription serviceDescription)
+        public static List<String> GetOperations(ServiceDescription serviceDescription)
         {
             var retorno = new List<String>();
 
@@ -74,7 +74,7 @@ namespace KakashiServiceConsole.ReadService
             return retorno;
         }
 
-        public static List<Functions> ExtrairFuncaoXml(XmlDocument xmlDocument, List<String> operacoes)
+        public static List<Functions> ExtractFunctionFromXml(XmlDocument xmlDocument, List<String> operacoes)
         {
             var retorno = new List<Functions>();
             var xd = XDocument.Parse(xmlDocument.InnerXml);
@@ -99,7 +99,7 @@ namespace KakashiServiceConsole.ReadService
                         if (elementos.Any())
                         {
                             var tipo = elementos.First().Attribute("type").Value.Replace(prefix + ":", String.Empty);
-                            funcao.ReturnType = GetTipoVariavel(tipo);
+                            funcao.ReturnType = GetVariableType(tipo);
                         }
                         else
                         {
@@ -127,7 +127,7 @@ namespace KakashiServiceConsole.ReadService
             return retorno;
         }
 
-        public static TypeVariable GetTipoVariavel(String tipo)
+        public static TypeVariable GetVariableType(String tipo)
         {
             if (tipo == "string")
             {
