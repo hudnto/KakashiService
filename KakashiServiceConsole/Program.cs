@@ -30,7 +30,7 @@ namespace KakashiServiceConsole
 
             BuildService(serviceObject);
         }
-        private static ServiceObject FuncaoFake()
+        private static ServiceObject FakeFunction()
         {
             var service = new ServiceObject();
             var lista = new List<Functions>()
@@ -60,11 +60,11 @@ namespace KakashiServiceConsole
         {
             var serviceDescription = Util.GetServiceDescriptionFromSVC(serviceObject.Url);
 
-            var xsd = Util.GetXsdInicial(serviceDescription);
+            var operations = Util.GetOperations(serviceDescription);
 
-            var operacoes = Util.GetOperations(serviceDescription);
+            var xsds = Util.GetXsds(serviceDescription);            
 
-            serviceObject.Functions = Util.ExtractFunctionFromXml(xsd, operacoes);
+            serviceObject.Functions = Util.ExtractFunctionFromXml(xsds, operations);
             serviceObject.OriginServiceName = serviceDescription.Name;
         }
 
