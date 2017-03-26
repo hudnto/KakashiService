@@ -43,10 +43,10 @@ namespace KakashiServiceConsole.CreateService
             {
                 var parametersValue = String.Empty;
                 int index = 0;
-                for (int i = 0; i < function.Parametros.Count; i++)
+                for (int i = 0; i < function.Parameters.Count; i++)
                 {
-                    var type = function.Parametros[i].Type.GetDescription();
-                    var comma = function.Parametros.Count == i + 1 ? String.Empty : ", ";
+                    var type = function.Parameters[i].Type.GetDescription();
+                    var comma = function.Parameters.Count == i + 1 ? String.Empty : ", ";
                     parametersValue = parametersValue + String.Format("{0} {1}{2}", type, alpha[i], comma);
                     index++;
                 }
@@ -101,10 +101,10 @@ namespace KakashiServiceConsole.CreateService
                 string arguments = String.Empty;
                 var parametersValue = String.Empty;
                 int index = 0;
-                for (int i = 0; i < function.Parametros.Count; i++)
+                for (int i = 0; i < function.Parameters.Count; i++)
                 {
-                    var type = function.Parametros[i].Type.GetDescription();
-                    var comma = function.Parametros.Count == i + 1 ? String.Empty : ", ";
+                    var type = function.Parameters[i].Type.GetDescription();
+                    var comma = function.Parameters.Count == i + 1 ? String.Empty : ", ";
                     parametersValue = parametersValue + String.Format("{0} {1}{2}", type, alpha[i], comma);
                     arguments = arguments + alpha[i] + " " + comma;
                     index++;

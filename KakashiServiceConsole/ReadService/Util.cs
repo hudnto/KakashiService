@@ -50,20 +50,27 @@ namespace KakashiServiceConsole.ReadService
 
             return myXmlDocument;
         }
-        public static List<XmlDocument> GetXsds(ServiceDescription serviceDescription)
+        public static XmlSchemaSet GetAllSchema(ServiceDescription serviceDescription)
         {
-            var xsds = new List<XmlDocument>();
-            var schema = serviceDescription.Types.Schemas.First();
-            foreach (var include in schema.Includes)
+            var schemaSet = new XmlSchemaSet();
+            foreach (XmlSchema schema in serviceDescription.Types.Schemas)
             {
-                var schemaLocation = ((XmlSchemaImport)include).SchemaLocation;
-                var xsd = DownloadXSD(schemaLocation);
-                xsds.Add(xsd);
+                if (schema.Includes.Count == 0)
+                {
+                    schemaSet.Add(schema);
+                }
+                else
+                {
+                    foreach (var include in schema.Includes)
+                    {
+                        var schemaLocation = ((XmlSchemaImport)include).SchemaLocation;
+                        var xmlReader = new XmlTextReader(schemaLocation);
+                        schemaSet.Add(schema.SourceUri, xmlReader);
+                    }
+                }
             }
 
-            ExtractItemXml(schema);
-
-            return xsds;
+            return schemaSet;
         }
 
         public static List<String> GetOperations(ServiceDescription serviceDescription)
@@ -85,7 +92,7 @@ namespace KakashiServiceConsole.ReadService
 
         public static List<Functions> ExtractFunctionFromXml(List<XmlDocument> xmlDocuments, List<String> operacoes)
         {
-            var retorno = new List<Functions>();
+            var functions = new List<Functions>();
             foreach (var xmlDocument in xmlDocuments)
             {
                 var xd = XDocument.Parse(xmlDocument.InnerXml);
@@ -121,23 +128,23 @@ namespace KakashiServiceConsole.ReadService
                         // define os parametros de entrada
                         else if (element.Attribute("name").Value.Contains(operacao))
                         {
-                            funcao.Parametros = new List<Parameter>();
+                            funcao.Parameters = new List<Parameter>();
                             if (elementos.Any())
                             {
                                 foreach (var elemento in elementos)
                                 {
                                     var tipo = elemento.Attribute("type").Value.Replace(prefix + ":", String.Empty);
-                                    funcao.Parametros.Add(new Parameter(ordem, tipo));
+                                    funcao.Parameters.Add(new Parameter(ordem, tipo));
                                     ordem++;
                                 }
                             }
                         }
                     }
-                    retorno.Add(funcao);
+                    functions.Add(funcao);
                 }
             }
 
-            return retorno;
+            return functions;
         }
 
         public static TypeVariable GetVariableType(String tipo)
@@ -166,67 +173,104 @@ namespace KakashiServiceConsole.ReadService
             return description;
         }
 
-        private static void ExtractItemXml(XmlSchema xmlSchema)
+        public static List<Functions> ExtractItemXml(XmlSchemaSet schemaSet)
         {
-            foreach (object item in xmlSchema.Items)
+            var functionsResponse = new List<Functions>();
+            var functions = new List<Functions>();
+            foreach (XmlSchema xmlSchema in schemaSet.Schemas())
             {
-                XmlSchemaElement schemaElement = item as XmlSchemaElement;
-                XmlSchemaComplexType complexType = item as XmlSchemaComplexType;
-
-                if (schemaElement != null)
+                //TODO Make a better solution
+                if (!xmlSchema.TargetNamespace.Contains("http://tempuri.org"))
+                    continue;
+                foreach (object item in xmlSchema.Items)
                 {
-                    Console.Out.WriteLine("Schema Element: {0}", schemaElement.Name);
+                    var function = new Functions();
+                    var functionResponse = new Functions();
+                    XmlSchemaElement schemaElement = item as XmlSchemaElement;
+                    XmlSchemaComplexType complexType = item as XmlSchemaComplexType;
 
-                    XmlSchemaType schemaType = schemaElement.SchemaType;
-                    XmlSchemaComplexType schemaComplexType = schemaType as XmlSchemaComplexType;
-
-                    if (schemaComplexType != null)
+                    if (schemaElement != null)
                     {
-                        XmlSchemaParticle particle = schemaComplexType.Particle;
-                        XmlSchemaSequence sequence = particle as XmlSchemaSequence;
-
-                        if (sequence != null)
+                        if (schemaElement.Name.Contains("Response"))
                         {
-                            foreach (XmlSchemaElement childElement in sequence.Items)
-                            {
-                                Console.Out.WriteLine("    Element/Type: {0}:{1}", childElement.Name,
-                                                      childElement.SchemaTypeName.Name);
-                            }
-
+                            functionResponse.Name = schemaElement.Name;
                         }
-                        if (schemaComplexType.AttributeUses.Count > 0)
+                        else
                         {
-                            IDictionaryEnumerator enumerator = schemaComplexType.AttributeUses.GetEnumerator();
+                            function.Name = schemaElement.Name;
+                        }
+                        XmlSchemaType schemaType = schemaElement.SchemaType;
+                        XmlSchemaComplexType schemaComplexType = schemaType as XmlSchemaComplexType;
+
+                        if (schemaComplexType != null)
+                        {
+                            XmlSchemaParticle particle = schemaComplexType.Particle;
+                            XmlSchemaSequence sequence = particle as XmlSchemaSequence;
+
+                            if (sequence != null)
+                            {
+                                var index = 0;
+                                foreach (XmlSchemaElement childElement in sequence.Items)
+                                {
+                                    if (schemaElement.Name.Contains("Response"))
+                                    {
+                                        functionResponse.ReturnType = GetVariableType(childElement.SchemaTypeName.Name);
+                                    }
+                                    else
+                                    {
+                                        function.Parameters.Add(new Parameter(index, childElement.SchemaTypeName.Name));
+                                        index++;
+                                    }
+                                }
+
+                            }
+                            if (schemaComplexType.AttributeUses.Count > 0)
+                            {
+                                IDictionaryEnumerator enumerator = schemaComplexType.AttributeUses.GetEnumerator();
+
+                                while (enumerator.MoveNext())
+                                {
+                                    XmlSchemaAttribute attribute = (XmlSchemaAttribute)enumerator.Value;
+
+                                    Console.Out.WriteLine("      Attribute/Type: {0}", attribute.Name);
+                                }
+                            }
+                        }
+                        if (schemaElement.Name.Contains("Response"))
+                        {
+                            functionsResponse.Add(functionResponse);
+                        }
+                        else
+                        {
+                            functions.Add(function);
+                        }
+                    }
+                    else if (complexType != null)
+                    {
+                        Console.Out.WriteLine("Complex Type: {0}", complexType.Name);
+                        OutputElements(complexType.Particle);
+                        if (complexType.AttributeUses.Count > 0)
+                        {
+                            IDictionaryEnumerator enumerator = complexType.AttributeUses.GetEnumerator();
 
                             while (enumerator.MoveNext())
                             {
                                 XmlSchemaAttribute attribute = (XmlSchemaAttribute)enumerator.Value;
-
                                 Console.Out.WriteLine("      Attribute/Type: {0}", attribute.Name);
                             }
                         }
                     }
                 }
-                else if (complexType != null)
-                {
-                    Console.Out.WriteLine("Complex Type: {0}", complexType.Name);
-                    OutputElements(complexType.Particle);
-                    if (complexType.AttributeUses.Count > 0)
-                    {
-                        IDictionaryEnumerator enumerator = complexType.AttributeUses.GetEnumerator();
-
-                        while (enumerator.MoveNext())
-                        {
-                            XmlSchemaAttribute attribute = (XmlSchemaAttribute)enumerator.Value;
-                            Console.Out.WriteLine("      Attribute/Type: {0}", attribute.Name);
-                        }
-                    }
-                }
-                Console.Out.WriteLine();
             }
 
-            Console.Out.WriteLine();
-            Console.In.ReadLine();
+            foreach (var response in functionsResponse)
+            {
+                var functionName = response.Name.Replace("Response", "");
+                var function = functions.First(a => a.Name == functionName);
+                function.ReturnType = response.ReturnType;
+            }
+
+            return functions;
         }
 
         private static void OutputElements(XmlSchemaParticle particle)
