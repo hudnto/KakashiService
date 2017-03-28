@@ -122,7 +122,7 @@ namespace KakashiService.Core.Modules.Read
             foreach (XmlSchema xmlSchema in schemaSet.Schemas())
             {
                 //TODO Make a better solution
-                if (!xmlSchema.TargetNamespace.Contains("http://tempuri.org"))
+                if (xmlSchema.TargetNamespace.Contains("Serialization"))
                     continue;
                 foreach (object item in xmlSchema.Items)
                 {
