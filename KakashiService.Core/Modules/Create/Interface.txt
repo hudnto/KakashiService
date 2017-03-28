@@ -1,0 +1,7 @@
+using System.ServiceModel;
+namespace {namespace} {
+    [ServiceContract]
+    public interface I{serviceName} {
+		{body}
+    }
+}
