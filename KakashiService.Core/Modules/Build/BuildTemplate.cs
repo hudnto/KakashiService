@@ -12,10 +12,13 @@ namespace KakashiService.Core.Modules.Build
         // using SvcUtil
         public static void CreateProxyClass(ServiceObject service)
         {
-            String command = String.Empty;
-
+            // Get Resource file 
+            var fileName = "svcutil.ps1";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.BuildService.svcutil.ps1";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
+
+            String command = String.Empty;
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
@@ -40,10 +43,13 @@ namespace KakashiService.Core.Modules.Build
 
         public static void Build(string projectPath, string msbuildPath)
         {
-            String command = String.Empty;
-
+            // Get Resource file 
+            var fileName = "build.ps1";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.BuildService.build.ps1";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
+
+            String command = String.Empty;
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))
@@ -65,10 +71,13 @@ namespace KakashiService.Core.Modules.Build
 
         public static void MoveBin(string source, string destin)
         {
-            String command = String.Empty;
-
+            // Get Resource file 
+            var fileName = "moveBin.ps1";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.BuildService.moveBin.ps1";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
+
+            String command = String.Empty;
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             using (StreamReader reader = new StreamReader(stream))

@@ -1,14 +1,12 @@
 ﻿using KakashiService.Core.Entities;
 using KakashiService.Core.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace KakashiService.UnitTest.Services
 {
     [TestClass]
     public class MainServiceTest
     {
-        [ExpectedException(typeof(Exception))]
         [TestMethod]
         public void SimpleRun()
         {
@@ -16,8 +14,8 @@ namespace KakashiService.UnitTest.Services
 
             var serviceObject = new ServiceObject();
 
-            serviceObject.Name = "DividirParaConquistar6";
-            serviceObject.Port = 20018;
+            serviceObject.Name = "ComplexService1";
+            serviceObject.Port = 20001;
             serviceObject.Path = @"C:\Users\lcramos1\Desktop\Kakashi";
             serviceObject.Namespace = "Kakashi";
 

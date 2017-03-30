@@ -11,7 +11,8 @@ namespace KakashiService.Core.Services
             CreateFile.FileIService(service.Functions);
             CreateFile.FileService(service.Functions, service.OriginServiceName);
             CreateFile.FileServiceSVC();
-            CreateFile.FileProj(service.OriginServiceName);
+            CreateFile.FileDataContract(service.ObjectTypes);
+            CreateFile.FileProj(service.OriginServiceName, service.ObjectTypes);
             CreateFile.WebConfig();
         }
     }

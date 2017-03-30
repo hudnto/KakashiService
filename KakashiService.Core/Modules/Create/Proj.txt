@@ -67,6 +67,7 @@
       <DependentUpon>"{serviceName}.svc"</DependentUpon>
     </Compile>
     <Compile Include="I{serviceName}.cs" />
+	{objects_types}
 	<Compile Include="{originService}.cs">
 		<SubType>Code</SubType>
 	</Compile>
