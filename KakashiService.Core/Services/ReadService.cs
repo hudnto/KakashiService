@@ -9,11 +9,15 @@ namespace KakashiService.Core.Services
     {
         public void Execute(ServiceObject serviceObject)
         {
-            var serviceDescription = Util.GetServiceDescriptionFromSVC(serviceObject.Url);
+            var readServiceInfo = new ReadServiceInfo();
 
-            var schemaSet = Util.GetAllSchema(serviceDescription);
+            var serviceDescription = readServiceInfo.GetServiceDescriptionFromSVC(serviceObject.Url);
 
-            serviceObject.Functions = Util.ExtractItemXml(schemaSet);
+            var schemaSet = readServiceInfo.GetAllSchema(serviceDescription);
+
+            serviceObject.Functions = readServiceInfo.ExtractItemXml(schemaSet);
+
+            serviceObject.ObjectTypes = readServiceInfo.GetObjectTypes();
 
             serviceObject.OriginServiceName = serviceDescription.Name;
         }

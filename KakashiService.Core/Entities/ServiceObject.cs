@@ -18,5 +18,8 @@ namespace KakashiService.Core.Entities
         public String IISPath { get; set; }
         public String OriginServiceName { get; set; }
         public List<Functions> Functions { get; set; }
+        public List<ObjectType> ObjectTypes { get; set; }
     }
+
+
 }

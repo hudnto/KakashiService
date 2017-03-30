@@ -1,21 +1,16 @@
-﻿using KakashiService.Core.Modules.Read;
+﻿using System;
 
 namespace KakashiService.Core.Entities
 {
     public class Parameter
     {
-        public Parameter()
-        {
-
-        }
-
-        public Parameter(int order, string tipo)
+        public Parameter(int order, string type)
         {
             Order = order;
-            Type = Util.GetVariableType(tipo);
+            TypeName = type;
         }
 
         public int Order { get; set; }
-        public TypeVariable Type { get; set; }
+        public String TypeName { get; set; }
     }
 }
