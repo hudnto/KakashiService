@@ -19,8 +19,8 @@ namespace KakashiService.UnitTest.Services
             serviceObject.Path = @"C:\Users\lcramos1\Desktop\Kakashi";
             serviceObject.Namespace = "Kakashi";
 
-            //serviceObject.Url = "http://localhost:40799/ServicoData.svc?wsdl";
-            serviceObject.Url = "http://localhost:58764/Service2.svc?wsdl";
+            serviceObject.Url = "http://localhost:40799/ServicoData.svc?wsdl";
+            //serviceObject.Url = "http://localhost:58764/Service2.svc?wsdl";
             //serviceObject.Url = "http://www.dneonline.com/calculator.asmx?wsdl";
 
             main.Execute(serviceObject);

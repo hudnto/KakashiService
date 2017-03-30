@@ -44,11 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\AttributeType.cs" />
+    <Compile Include="Entities\Parameter.cs" />
     <Compile Include="Modules\Build\BuildSite.cs" />
     <Compile Include="Modules\Build\BuildTemplate.cs" />
     <Compile Include="Modules\Create\CreateFile.cs" />
     <Compile Include="Entities\Functions.cs" />
-    <Compile Include="Entities\Parameter.cs" />
     <Compile Include="Entities\ServiceObject.cs" />
     <Compile Include="Entities\TypeVariable.cs" />
     <Compile Include="Modules\Read\Util.cs" />

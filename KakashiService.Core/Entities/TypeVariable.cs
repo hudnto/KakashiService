@@ -8,6 +8,10 @@ namespace KakashiService.Core.Entities
         TypeString,
         [Description("int")]
         TypeInt,
+        [Description("float")]
+        TypeFloat,
+        [Description("datetime")]
+        TypeDatetime,
         [Description("void")]
         TypeVoid
     }

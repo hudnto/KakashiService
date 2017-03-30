@@ -3,6 +3,7 @@ using KakashiService.Core.Modules.Read;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace KakashiService.Core.Modules.Create
@@ -20,9 +21,11 @@ namespace KakashiService.Core.Modules.Create
         }
         public static void FileIService(List<Functions> functions)
         {
-            // get file from the resource
+            // Get Resource file 
+            var fileName = "Interface.txt";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.CreateService.Interface.txt";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
 
             var value = String.Empty;
             // read model in txt
@@ -76,9 +79,11 @@ namespace KakashiService.Core.Modules.Create
 
         public static void FileService(List<Functions> functions, String originService)
         {
-            // get file from the resource
+            // Get Resource file 
+            var fileName = "Service.txt";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.CreateService.Service.txt";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
 
             var value = String.Empty;
             // read model in txt
@@ -134,9 +139,11 @@ namespace KakashiService.Core.Modules.Create
 
         public static void FileServiceSVC()
         {
-            // get file from the resource
+            // Get Resource file 
+            var fileName = "ServiceSVC.txt";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.CreateService.ServiceSVC.txt";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
 
             var value = String.Empty;
             // read model in txt
@@ -169,8 +176,11 @@ namespace KakashiService.Core.Modules.Create
 
         public static void FileProj(string originService)
         {
+            // Get Resource file 
+            var fileName = "Proj.txt";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.CreateService.Proj.txt";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
 
             var value = String.Empty;
             // read model in txt
@@ -203,8 +213,11 @@ namespace KakashiService.Core.Modules.Create
 
         public static void WebConfig()
         {
+            // Get Resource file 
+            var fileName = "Webconfig.txt";
             var assembly = Assembly.GetExecutingAssembly();
-            var resourceName = "KakashiServiceConsole.CreateService.Webconfig.txt";
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
 
             var value = String.Empty;
             // read model in txt
