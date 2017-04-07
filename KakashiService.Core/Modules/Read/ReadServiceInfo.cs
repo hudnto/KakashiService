@@ -141,15 +141,16 @@ namespace KakashiService.Core.Modules.Read
                                     Console.Out.WriteLine("      Attribute/Type: {0}", attribute.Name);
                                 }
                             }
+                            if (schemaElement.Name.Contains("Response"))
+                            {
+                                functionsResponse.Add(functionResponse);
+                            }
+                            else
+                            {
+                                functions.Add(function);
+                            }
                         }
-                        if (schemaElement.Name.Contains("Response"))
-                        {
-                            functionsResponse.Add(functionResponse);
-                        }
-                        else
-                        {
-                            functions.Add(function);
-                        }
+
                     }
                     else if (complexType != null)
                     {
@@ -176,6 +177,7 @@ namespace KakashiService.Core.Modules.Read
                 var function = functions.First(a => a.Name == functionName);
                 function.ReturnType = response.ReturnType;
             }
+
 
             return functions;
         }

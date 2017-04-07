@@ -1,5 +1,5 @@
 ﻿using KakashiService.Core.Entities;
-using System.Configuration;
+using KakashiService.Core.Services;
 using System.Web.Mvc;
 
 namespace KakashiService.Web.Controllers
@@ -9,10 +9,22 @@ namespace KakashiService.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            var main = new MainService();
+
             var serviceObject = new ServiceObject();
-            serviceObject.IISPath = ConfigurationManager.AppSettings["iisPath"];
-            serviceObject.MsBuildPath = ConfigurationManager.AppSettings["msbuildPath"];
-            serviceObject.SvcUtilPath = ConfigurationManager.AppSettings["svcutilPath"];
+
+            const int port = 20022;
+            serviceObject.Name = "ComplexService" + port;
+            serviceObject.Port = port;
+            serviceObject.Path = @"C:\Kakashi";
+            serviceObject.Namespace = "Kakashi";
+
+            //serviceObject.Url = "http://localhost:40799/ServicoData.svc?wsdl";
+            serviceObject.Url = "http://localhost:58764/Service2.svc?wsdl";
+            //serviceObject.Url = "http://www.dneonline.com/calculator.asmx?wsdl";
+
+            main.Execute(serviceObject);
+
             return View();
         }
 
