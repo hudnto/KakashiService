@@ -13,7 +13,7 @@ namespace KakashiService.Web.Controllers
 
             var serviceObject = new ServiceObject();
 
-            const int port = 20022;
+            const int port = 20205;
             serviceObject.Name = "ComplexService" + port;
             serviceObject.Port = port;
             serviceObject.Path = @"C:\Kakashi";

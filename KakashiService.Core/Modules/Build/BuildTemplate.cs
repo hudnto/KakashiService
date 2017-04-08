@@ -30,6 +30,7 @@ namespace KakashiService.Core.Modules.Build
             command = command.Replace("@projectPath", service.Path);
             command = command.Replace("@url", service.Url);
             command = command.Replace("@originService", service.OriginServiceName);
+            command = command.Replace("@namespace", service.Namespace);
 
 
             using (PowerShell shell = PowerShell.Create())

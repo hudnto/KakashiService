@@ -269,13 +269,13 @@ namespace KakashiService.Core.Modules.Create
             value = value.Replace("{serviceName}", _serviceName);
             value = value.Replace("{originService}", originService);
 
-            var objectTemplate = String.Empty;
-            foreach (var objectType in objectTypes)
-            {
-                var include = String.Format("<Compile Include=\"{0}.cs\" />", objectType.TypeName);
-                objectTemplate += include;
-            }
-            value = value.Replace("{objects_types}", objectTemplate);
+            //var objectTemplate = String.Empty;
+            //foreach (var objectType in objectTypes)
+            //{
+            //    var include = String.Format("<Compile Include=\"{0}.cs\" />", objectType.TypeName);
+            //    objectTemplate += include;
+            //}
+            //value = value.Replace("{objects_types}", objectTemplate);
 
 
             FileInfo file = new FileInfo(_path + "/" + _serviceName + ".csproj");
