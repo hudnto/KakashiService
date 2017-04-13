@@ -1,5 +1,7 @@
 ﻿using KakashiService.Core.Entities;
 using KakashiService.Core.Services;
+using System;
+using System.Configuration;
 using System.Web.Mvc;
 
 namespace KakashiService.Web.Controllers
@@ -13,10 +15,11 @@ namespace KakashiService.Web.Controllers
 
             var serviceObject = new ServiceObject();
 
-            const int port = 20205;
+            var portConfig = ConfigurationManager.AppSettings["port"];
+            var port = Convert.ToInt32(portConfig);
             serviceObject.Name = "ComplexService" + port;
             serviceObject.Port = port;
-            serviceObject.Path = @"C:\Kakashi";
+            serviceObject.Path = ConfigurationManager.AppSettings["localFiles"];
             serviceObject.Namespace = "Kakashi";
 
             //serviceObject.Url = "http://localhost:40799/ServicoData.svc?wsdl";
