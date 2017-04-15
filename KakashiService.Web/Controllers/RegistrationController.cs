@@ -1,7 +1,5 @@
-﻿using KakashiService.Core.Entities;
-using KakashiService.Core.Services;
-using System;
-using System.Configuration;
+﻿using KakashiService.Core.Services;
+using KakashiService.Web.ViewModel;
 using System.Web.Mvc;
 
 namespace KakashiService.Web.Controllers
@@ -11,31 +9,23 @@ namespace KakashiService.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            var main = new MainService();
-
-            var serviceObject = new ServiceObject();
-
-            var portConfig = ConfigurationManager.AppSettings["port"];
-            var port = Convert.ToInt32(portConfig);
-            serviceObject.Name = "ComplexService" + port;
-            serviceObject.Port = port;
-            serviceObject.Path = ConfigurationManager.AppSettings["localFiles"];
-            serviceObject.Namespace = "Kakashi";
-
-            //serviceObject.Url = "http://localhost:40799/ServicoData.svc?wsdl";
-            serviceObject.Url = "http://localhost:58764/Service2.svc?wsdl";
-            //serviceObject.Url = "http://www.dneonline.com/calculator.asmx?wsdl";
-
-            main.Execute(serviceObject);
-
-            return View();
+            return View(new ConfigurationVM());
         }
 
-        public JsonResult RegisterEndPoint(string endpoint)
+        public JsonResult Register(ConfigurationVM config)
         {
+            var message = "Service " + config.ServiceName + " Cloned!";
 
+            if (!ModelState.IsValid)
+            {
 
-            return Json(new object { });
+            }
+
+            var serviceObject = ConfigurationVM.Convert(config);
+            var main = new MainService();
+            main.Execute(serviceObject);
+
+            return Json(new { success = true, message });
         }
     }
 }

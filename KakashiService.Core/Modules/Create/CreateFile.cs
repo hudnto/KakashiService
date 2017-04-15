@@ -138,80 +138,6 @@ namespace KakashiService.Core.Modules.Create
             }
         }
 
-        public static void FileDataContract(List<ObjectType> objectTypes)
-        {
-            // Get Resource file 
-            var fileName = "DataContract.txt";
-            var assembly = Assembly.GetExecutingAssembly();
-            var allResources = assembly.GetManifestResourceNames();
-            var resourceName = allResources.First(a => a.Contains(fileName));
-
-            var value = String.Empty;
-            foreach (var objectType in objectTypes)
-            {
-
-
-                // read model in txt
-                using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    value = reader.ReadToEnd();
-                }
-
-                // replace all tags, except body
-                value = value.Replace("{namespace}", _namespaceValue);
-                value = value.Replace("{object_name}", objectType.TypeName);
-
-                // create attributes with datamember 
-                char[] alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToLower().ToCharArray();
-                var index = 0;
-                var attributesTemplate = String.Empty;
-                foreach (var attribute in objectType.Attributes)
-                {
-                    var template = String.Format("\n[DataMember]\npublic {0} {1} {{get;set;}}\n", attribute, alpha[index]);
-                    index++;
-                    attributesTemplate += template;
-                }
-                value = value.Replace("{attributes}", attributesTemplate);
-
-                // create initialization of parameters constructor
-                // and create the body of the constructor
-
-                var parametersTemplate = String.Empty;
-                var initializationTemplate = String.Empty;
-
-                for (int i = 0; i < objectType.Attributes.Count; i++)
-                {
-                    // is the last? no comma
-                    var comma = i + 1 == objectType.Attributes.Count ? String.Empty : ",";
-                    var template = String.Format("{0} {1}{2}", objectType.Attributes[i], alpha[i], comma);
-                    parametersTemplate += template;
-
-                    var templateInit = String.Format("\nthis.{0} = {1};\n", alpha[i], alpha[i]);
-
-                    initializationTemplate += templateInit;
-                }
-
-                value = value.Replace("{parameter_constructor}", parametersTemplate);
-                value = value.Replace("{initialization}", initializationTemplate);
-
-                FileInfo file = new FileInfo(_path + "/" + objectType.TypeName + ".cs");
-                DirectoryInfo di = new DirectoryInfo(file.DirectoryName);
-                if (!di.Exists)
-                {
-                    di.Create();
-                }
-
-                if (!file.Exists)
-                {
-                    using (var stream = file.CreateText())
-                    {
-                        stream.WriteLine(value);
-                    }
-                }
-            }
-        }
-
         public static void FileServiceSVC()
         {
             // Get Resource file 
@@ -268,15 +194,6 @@ namespace KakashiService.Core.Modules.Create
             value = value.Replace("{namespace}", _namespaceValue);
             value = value.Replace("{serviceName}", _serviceName);
             value = value.Replace("{originService}", originService);
-
-            //var objectTemplate = String.Empty;
-            //foreach (var objectType in objectTypes)
-            //{
-            //    var include = String.Format("<Compile Include=\"{0}.cs\" />", objectType.TypeName);
-            //    objectTemplate += include;
-            //}
-            //value = value.Replace("{objects_types}", objectTemplate);
-
 
             FileInfo file = new FileInfo(_path + "/" + _serviceName + ".csproj");
             DirectoryInfo di = new DirectoryInfo(file.DirectoryName);
