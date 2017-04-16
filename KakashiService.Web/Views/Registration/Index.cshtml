@@ -6,7 +6,8 @@
 
 @using (Ajax.BeginForm("Register", new AjaxOptions()
 {
-    HttpMethod = "POST"
+    HttpMethod = "POST",
+    OnComplete = "AjaxResponse"
 }))
 {
     <div class="panel panel-default">
@@ -15,24 +16,24 @@
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         @Html.LabelFor(a => a.ServiceName, new {@class = "control-label"})
                         @Html.TextBoxFor(a => a.ServiceName, new {@class = "form-control"})
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="form-group">
                         @Html.LabelFor(a => a.Port, new {@class = "control-label"})
                         @Html.TextBoxFor(a => a.Port, new {@class = "form-control"})
                     </div>
                 </div>
-                <div class="col-sm-4">
+                @*<div class="col-sm-4">
                     <div class="form-group">
                         @Html.LabelFor(a => a.Namespace, new {@class = "control-label"})
                         @Html.TextBoxFor(a => a.Namespace, new {@class = "form-control"})
                     </div>
-                </div>
+                </div>*@
             </div>
             <div class="row">
                 <div class="col-sm-12">

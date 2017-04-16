@@ -9,7 +9,7 @@ namespace KakashiService.Web.ViewModel
         [DisplayName("Service Name")]
         public String ServiceName { get; set; }
         [DisplayName("Number of the Port")]
-        public int Port { get; set; }    
+        public int Port { get; set; }
         public String Namespace { get; set; }
         [DisplayName("Endpoint of the service that will be cloned")]
         public String Url { get; set; }
@@ -22,7 +22,7 @@ namespace KakashiService.Web.ViewModel
 
             destin.Name = source.ServiceName;
             destin.Port = source.Port;
-            destin.Namespace = source.Namespace;
+            destin.Namespace = "Kakashi";
             destin.Url = source.Url;
             destin.Path = source.BuildPath;
 
