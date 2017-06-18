@@ -19,7 +19,7 @@ namespace KakashiService.Core.Services
 
             serviceObject.ObjectTypes = readServiceInfo.GetObjectTypes();
 
-            serviceObject.OriginServiceName = serviceDescription.Name;
+            serviceObject.OriginServiceName = string.IsNullOrEmpty(serviceDescription.Name) ? serviceDescription.PortTypes[0].Name : serviceDescription.Name;
         }
     }
 }
