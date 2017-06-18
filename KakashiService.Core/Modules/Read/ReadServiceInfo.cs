@@ -210,42 +210,6 @@ namespace KakashiService.Core.Modules.Read
                 }
                 AddObject(objectType);
             }
-            else if (choice != null)
-            {
-                throw new Exception();
-                Console.Out.WriteLine("  Choice");
-                for (int i = 0; i < choice.Items.Count; i++)
-                {
-                    XmlSchemaElement childElement = choice.Items[i] as XmlSchemaElement;
-
-                    if (childElement != null)
-                    {
-                        Console.Out.WriteLine("    Element/Type: {0}:{1}", childElement.Name,
-                                              childElement.SchemaTypeName.Name);
-                    }
-                    //else OutputElements(choice.Items[i] as XmlSchemaParticle);
-                }
-
-                Console.Out.WriteLine();
-            }
-            else if (all != null)
-            {
-                throw new Exception();
-
-                Console.Out.WriteLine("  All");
-                for (int i = 0; i < all.Items.Count; i++)
-                {
-                    XmlSchemaElement childElement = all.Items[i] as XmlSchemaElement;
-
-                    if (childElement != null)
-                    {
-                        Console.Out.WriteLine("    Element/Type: {0}:{1}", childElement.Name,
-                                              childElement.SchemaTypeName.Name);
-                    }
-                    // else OutputElements(all.Items[i] as XmlSchemaParticle);
-                }
-                Console.Out.WriteLine();
-            }
         }
     }
 }
