@@ -25,7 +25,7 @@ namespace KakashiService.Web.Controllers
 
             var serviceObject = ConfigurationVM.Convert(config);
             var main = new MainService();
-            //main.Execute(serviceObject);
+            main.Execute(serviceObject);
 
             message += String.Format("\nEndpoint: http://{0}:{1}/{2}.svc?wsdl", Request.UrlReferrer.Host, serviceObject.Port, serviceObject.Name);
 
