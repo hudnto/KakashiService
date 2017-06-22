@@ -9,33 +9,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KakashiService.Core", "Kaka
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Casa|Any CPU = Casa|Any CPU
-		Ceub|Any CPU = Ceub|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-		Stefanini|Any CPU = Stefanini|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{55315430-095E-4086-B09B-8A416417959B}.Casa|Any CPU.ActiveCfg = Release|Any CPU
-		{55315430-095E-4086-B09B-8A416417959B}.Casa|Any CPU.Build.0 = Release|Any CPU
-		{55315430-095E-4086-B09B-8A416417959B}.Ceub|Any CPU.ActiveCfg = Release|Any CPU
-		{55315430-095E-4086-B09B-8A416417959B}.Ceub|Any CPU.Build.0 = Release|Any CPU
 		{55315430-095E-4086-B09B-8A416417959B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55315430-095E-4086-B09B-8A416417959B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55315430-095E-4086-B09B-8A416417959B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55315430-095E-4086-B09B-8A416417959B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55315430-095E-4086-B09B-8A416417959B}.Stefanini|Any CPU.ActiveCfg = Release|Any CPU
-		{55315430-095E-4086-B09B-8A416417959B}.Stefanini|Any CPU.Build.0 = Release|Any CPU
-		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Casa|Any CPU.ActiveCfg = Release|Any CPU
-		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Casa|Any CPU.Build.0 = Release|Any CPU
-		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Ceub|Any CPU.ActiveCfg = Release|Any CPU
-		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Ceub|Any CPU.Build.0 = Release|Any CPU
 		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Stefanini|Any CPU.ActiveCfg = Release|Any CPU
-		{F085C0FF-2AB9-4342-8468-8928F4CC0BB0}.Stefanini|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
