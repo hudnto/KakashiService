@@ -16,16 +16,22 @@ namespace KakashiService.Web.ViewModel
         [DisplayName("Directory of the source service")]
         public String BuildPath { get; set; }
 
-        public ConfigurationVM(bool fake = false)
+        public ConfigurationVM()
         {
-            if(fake)
+
+        }
+
+        public ConfigurationVM(bool fake)
+        {
+            if (fake)
             {
                 ServiceName = "t1";
                 Port = 10001;
                 Url = "http://www.dneonline.com/calculator.asmx?WSDL";
-                BuildPath = "C:\\inetput\\kakashi\\source\\t1";
+                BuildPath = "C:\\inetpub\\kakashi\\source\\t1";
+                Namespace = "Kakashi";
             }
-        }        
+        }
 
         public static ServiceObject Convert(ConfigurationVM source)
         {
