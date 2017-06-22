@@ -10,7 +10,7 @@ namespace KakashiService.Web.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            return View(new ConfigurationVM());
+            return View(new ConfigurationVM(true));
         }
 
         [HttpPost]
