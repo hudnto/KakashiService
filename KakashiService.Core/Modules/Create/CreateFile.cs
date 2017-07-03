@@ -242,5 +242,37 @@ namespace KakashiService.Core.Modules.Create
                 }
             }
         }
+
+        public static void Package()
+        {
+            // Get Resource file 
+            var fileName = "Package.txt";
+            var assembly = Assembly.GetExecutingAssembly();
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
+
+            var value = String.Empty;
+            // read model in txt
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                value = reader.ReadToEnd();
+            }
+
+            FileInfo file = new FileInfo(_path + "/packages.config");
+            DirectoryInfo di = new DirectoryInfo(file.DirectoryName);
+            if (!di.Exists)
+            {
+                di.Create();
+            }
+
+            if (!file.Exists)
+            {
+                using (var stream = file.CreateText())
+                {
+                    stream.WriteLine(value);
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace KakashiService.Core.Services
             CreateFile.FileServiceSVC();
             CreateFile.FileProj(service.OriginServiceName, service.ObjectTypes);
             CreateFile.WebConfig();
+            CreateFile.Package();
         }
     }
 }

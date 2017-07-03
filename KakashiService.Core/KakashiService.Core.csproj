@@ -97,6 +97,7 @@
     <EmbeddedResource Include="Modules\Create\DataContract.txt" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Modules\Create\Package.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
