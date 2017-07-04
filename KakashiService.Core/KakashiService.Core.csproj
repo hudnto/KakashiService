@@ -100,34 +100,34 @@
     <Compile Include="Services\ReadService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Build\build.ps1" />
+    <EmbeddedResource Include="Modules\Build\PowerShellScript\build.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Build\moveBin.ps1" />
+    <EmbeddedResource Include="Modules\Build\PowerShellScript\moveBin.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Build\svcutil.ps1" />
+    <EmbeddedResource Include="Modules\Build\PowerShellScript\svcutil.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\Interface.txt" />
+    <EmbeddedResource Include="Modules\Create\TemplatesFile\Interface.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\Proj.txt" />
+    <EmbeddedResource Include="Modules\Create\TemplatesFile\Proj.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\Service.txt" />
+    <EmbeddedResource Include="Modules\Create\TemplatesFile\Service.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\ServiceSVC.txt" />
+    <EmbeddedResource Include="Modules\Create\TemplatesFile\ServiceSVC.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\Webconfig.txt" />
+    <EmbeddedResource Include="Modules\Create\TemplatesFile\Webconfig.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\DataContract.txt" />
+    <EmbeddedResource Include="Modules\Create\TemplatesFile\DataContract.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\Package.txt" />
+    <EmbeddedResource Include="Modules\Create\TemplatesFile\Package.txt" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -24,7 +24,7 @@ namespace KakashiService.Core.Modules.Create
         public static void FileIService(List<Functions> functions)
         {
             // Get Resource file 
-            var fileName = "Interface.txt";
+            var fileName = "TemplatesFile.Interface.txt";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
@@ -82,7 +82,7 @@ namespace KakashiService.Core.Modules.Create
         public static void FileService(List<Functions> functions, String originService)
         {
             // Get Resource file 
-            var fileName = "Service.txt";
+            var fileName = "TemplatesFile.Service.txt";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
@@ -142,7 +142,7 @@ namespace KakashiService.Core.Modules.Create
         public static void FileServiceSVC()
         {
             // Get Resource file 
-            var fileName = "ServiceSVC.txt";
+            var fileName = "TemplatesFile.ServiceSVC.txt";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
@@ -179,7 +179,7 @@ namespace KakashiService.Core.Modules.Create
         public static void FileProj(string originService, List<ObjectType> objectTypes)
         {
             // Get Resource file 
-            var fileName = "Proj.txt";
+            var fileName = "TemplatesFile.Proj.txt";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
@@ -216,7 +216,7 @@ namespace KakashiService.Core.Modules.Create
         public static void WebConfig()
         {
             // Get Resource file 
-            var fileName = "Webconfig.txt";
+            var fileName = "TemplatesFile.Webconfig.txt";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
@@ -248,7 +248,7 @@ namespace KakashiService.Core.Modules.Create
         public static void Package()
         {
             // Get Resource file 
-            var fileName = "Package.txt";
+            var fileName = "TemplatesFile.Package.txt";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));

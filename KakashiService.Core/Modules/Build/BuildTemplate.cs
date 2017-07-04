@@ -13,7 +13,7 @@ namespace KakashiService.Core.Modules.Build
         public static void CreateProxyClass(ServiceObject service)
         {
             // Get Resource file 
-            var fileName = "svcutil.ps1";
+            var fileName = "PowerShellScript.svcutil.ps1";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
@@ -45,7 +45,7 @@ namespace KakashiService.Core.Modules.Build
         public static void Build(string projectPath, string msbuildPath)
         {
             // Get Resource file 
-            var fileName = "build.ps1";
+            var fileName = "PowerShellScript.build.ps1";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
@@ -56,7 +56,7 @@ namespace KakashiService.Core.Modules.Build
             String command = String.Empty;
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
+             using (StreamReader reader = new StreamReader(stream))
             {
                 command = reader.ReadToEnd();
             }
@@ -78,7 +78,7 @@ namespace KakashiService.Core.Modules.Build
         public static void MoveBin(string source, string destin)
         {
             // Get Resource file 
-            var fileName = "moveBin.ps1";
+            var fileName = "PowerShellScript.moveBin.ps1";
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
