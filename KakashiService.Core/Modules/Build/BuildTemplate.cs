@@ -50,6 +50,9 @@ namespace KakashiService.Core.Modules.Build
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
 
+            var solutionPath = projectPath.Replace(".csproj", ".sln");
+            var nugetPath = @"C:\inetpub\Kakashi\Bin\nuget.exe";
+
             String command = String.Empty;
 
             using (Stream stream = assembly.GetManifestResourceStream(resourceName))
@@ -60,6 +63,8 @@ namespace KakashiService.Core.Modules.Build
 
             command = command.Replace("@msbuildPath", msbuildPath);
             command = command.Replace("@projectPath", projectPath);
+            command = command.Replace("@solutionPath", solutionPath);
+            command = command.Replace("@nugetPath", nugetPath);
 
             using (PowerShell shell = PowerShell.Create())
             {

@@ -14,6 +14,7 @@ namespace KakashiService.Core.Services
             CreateFile.FileProj(service.OriginServiceName, service.ObjectTypes);
             CreateFile.WebConfig();
             CreateFile.Package();
+            CreateFile.Solution();
         }
     }
 }

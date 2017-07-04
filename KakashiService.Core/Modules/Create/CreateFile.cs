@@ -12,6 +12,7 @@ namespace KakashiService.Core.Modules.Create
         public static String _path;
         public static String _serviceName;
         public static String _namespaceValue;
+        public static String _projectPath;
 
         public static void SetConfig(string path, string serviceName, string namespaceValue)
         {
@@ -195,7 +196,8 @@ namespace KakashiService.Core.Modules.Create
             value = value.Replace("{serviceName}", _serviceName);
             value = value.Replace("{originService}", originService);
 
-            FileInfo file = new FileInfo(_path + "/" + _serviceName + ".csproj");
+            _projectPath = _path + "\\" + _serviceName + ".csproj";
+            FileInfo file = new FileInfo(_projectPath);
             DirectoryInfo di = new DirectoryInfo(file.DirectoryName);
             if (!di.Exists)
             {
@@ -273,6 +275,17 @@ namespace KakashiService.Core.Modules.Create
                     stream.WriteLine(value);
                 }
             }
+        }
+
+        public static void Solution()
+        {
+            Type type = Type.GetTypeFromProgID("VisualStudio.DTE.14.0");
+            Object obj = System.Activator.CreateInstance(type, true);
+            EnvDTE80.DTE2 dte = (EnvDTE80.DTE2)obj;
+            EnvDTE100.Solution4 solution = (EnvDTE100.Solution4)dte.Solution;
+            solution.AddFromFile(_projectPath);
+            System.Threading.Thread.Sleep(1000);
+            solution.SaveAs(_serviceName + ".sln");
         }
     }
 }
