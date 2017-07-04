@@ -9,7 +9,7 @@ namespace {namespace} {
 		public {serviceName}(){
 			_client = new {originService}Client("{originService}");
 			ConnectionMultiplexer conn = ConnectionMultiplexer.Connect("localhost");
-			_db = _conn.GetDatabase();
+			_db = conn.GetDatabase();
 		}
 		{body}
     }

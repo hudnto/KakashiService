@@ -106,19 +106,30 @@ namespace KakashiService.Core.Modules.Create
             foreach (var function in functions)
             {
                 string arguments = String.Empty;
-                var parametersValue = String.Empty;
+                string parametersValue = String.Empty;
+                string parametersCountString = String.Empty;
                 int index = 0;
+
+                // Creating template parameters
                 for (int i = 0; i < function.Parameters.Count; i++)
                 {
                     var type = function.Parameters[i].TypeName;
                     var comma = function.Parameters.Count == i + 1 ? String.Empty : ", ";
                     parametersValue = parametersValue + String.Format("{0} {1}{2}", type, alpha[i], comma);
-                    arguments = arguments + alpha[i] + " " + comma;
+                    parametersCountString = parametersCountString + "{" + (i + 2) + "}";
+                    arguments = arguments + " " + alpha[i] + comma;
                     index++;
                 }
 
-                functionValue = functionValue + String.Format("public {0} {1} ({2})", function.ReturnType, function.Name, parametersValue);
-                functionValue = functionValue + "{\n" + String.Format("\treturn _client.{0}({1});", function.Name, arguments) + "\n}\n\t\t";
+                functionValue = functionValue + String.Format("public {0} {1} ({2})", function.ReturnType, function.Name, parametersValue)+"{\n";
+                var keyFunction = "var key = String.Format(\"{0}{1}"+parametersCountString+"\", \""+_serviceName+"\",\""+ function.Name + "\" ,"+arguments+");\n";
+                var valueFunction = "var value = _db.StringGet(key);\n";
+                var ifFunction = " if(value == String.Empty){\n";
+                var responseFunction = String.Format("var response = _client.{0}({1});", function.Name, arguments) +"\n";
+                var tempFunction = "_db.StringSet(key, response.ToString());\nreturn response;\n}\n";
+                var elseFunction = "else {\nreturn Convert.ToInt32(value);\n}\n}\n";
+
+                functionValue = functionValue + keyFunction + valueFunction + ifFunction + responseFunction + tempFunction + elseFunction;
             }
 
             value = value.Replace("{body}", functionValue);
