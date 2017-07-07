@@ -12,6 +12,8 @@ namespace KakashiService.Core.Services
 
             var projectPath = String.Format("{0}/{1}.csproj", service.Path, service.Name);
 
+            BuildTemplate.Restore(@"\Modules\Build\Resource\nuget.exe", projectPath);            
+
             BuildTemplate.Build(projectPath, service.MsBuildPath);
 
             BuildSite.Create(service.Name, service.Port, service.IISPath);

@@ -1,8 +1,5 @@
-﻿$solution = "@solutionPath"
-$project = "@projectPath"
-$nuget = "@nugetPath"
+﻿$project = "@projectPath"
 $msbuild = "@msbuildPath"
 
-& $nuget restore $solution
 & $msbuild $project "/p:Configuration=Debug;VisualStudioVersion=14.0"
 

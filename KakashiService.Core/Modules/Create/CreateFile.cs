@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace KakashiService.Core.Modules.Create
 {
@@ -290,13 +291,39 @@ namespace KakashiService.Core.Modules.Create
 
         public static void Solution()
         {
-            Type type = Type.GetTypeFromProgID("VisualStudio.DTE.14.0");
-            Object obj = System.Activator.CreateInstance(type, true);
-            EnvDTE80.DTE2 dte = (EnvDTE80.DTE2)obj;
-            EnvDTE100.Solution4 solution = (EnvDTE100.Solution4)dte.Solution;
-            solution.AddFromFile(_projectPath);
-            System.Threading.Thread.Sleep(1000);
-            solution.SaveAs(_serviceName + ".sln");
+            // Get Resource file 
+            var fileName = "TemplatesFile.Solution.txt";
+            var assembly = Assembly.GetExecutingAssembly();
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
+
+            var value = String.Empty;
+            // read model in txt
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                value = reader.ReadToEnd();
+            }
+
+            value = value.Replace("{serviceName}", _serviceName);
+
+            _projectPath = _path + "\\" + _serviceName + ".sln";
+            FileInfo file = new FileInfo(_projectPath);
+            DirectoryInfo di = new DirectoryInfo(file.DirectoryName);
+            if (!di.Exists)
+            {
+                di.Create();
+            }
+
+            if (!file.Exists)
+            {
+                using (var stream = file.CreateText())
+                {
+                    stream.WriteLine(value);
+                }
+            }
         }
+
+      
     }
 }

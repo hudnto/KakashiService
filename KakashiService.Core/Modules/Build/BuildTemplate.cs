@@ -42,6 +42,36 @@ namespace KakashiService.Core.Modules.Build
             }
         }
 
+        public static void Restore(string nugetPath, string projectPath)
+        {
+            // Get Resource file 
+            var fileName = "PowerShellScript.restore.ps1";
+            var assembly = Assembly.GetExecutingAssembly();
+            var allResources = assembly.GetManifestResourceNames();
+            var resourceName = allResources.First(a => a.Contains(fileName));
+
+            var solutionPath = projectPath.Replace(".csproj", ".sln");
+
+            String command = String.Empty;
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                command = reader.ReadToEnd();
+            }
+
+            command = command.Replace("@solutionPath", solutionPath);
+            command = command.Replace("@nugetPath", nugetPath);
+
+            using (PowerShell shell = PowerShell.Create())
+            {
+                shell.Commands.AddScript(command);
+
+                var results = shell.Invoke();
+                var errors = shell.Streams.Error.ToList();
+            }
+        }
+
         public static void Build(string projectPath, string msbuildPath)
         {
             // Get Resource file 
@@ -49,9 +79,6 @@ namespace KakashiService.Core.Modules.Build
             var assembly = Assembly.GetExecutingAssembly();
             var allResources = assembly.GetManifestResourceNames();
             var resourceName = allResources.First(a => a.Contains(fileName));
-
-            var solutionPath = projectPath.Replace(".csproj", ".sln");
-            var nugetPath = @"C:\inetpub\Kakashi\Bin\nuget.exe";
 
             String command = String.Empty;
 
@@ -63,8 +90,6 @@ namespace KakashiService.Core.Modules.Build
 
             command = command.Replace("@msbuildPath", msbuildPath);
             command = command.Replace("@projectPath", projectPath);
-            command = command.Replace("@solutionPath", solutionPath);
-            command = command.Replace("@nugetPath", nugetPath);
 
             using (PowerShell shell = PowerShell.Create())
             {
