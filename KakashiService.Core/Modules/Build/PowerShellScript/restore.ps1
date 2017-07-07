@@ -1,9 +1,5 @@
 ﻿$solution = "@solutionPath"
-$path = Split-Path -parent $MyInvocation.MyCommand.Definition
+$path = "C:\inetpub\Kakashi\Bin\bin" #Split-Path -Path $MyInvocation.MyCommand.Definition -Parent
 $nuget =  $path + "@nugetPath"
 
-Write-Host $path
-Write-Host $nuget
-
-& $nuget restore $solution -Verbosity
-
+& $nuget restore $solution 
