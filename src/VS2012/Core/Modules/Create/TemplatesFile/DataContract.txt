@@ -1,0 +1,16 @@
+using System;
+using System.Runtime.Serialization;
+
+namespace {namespace}
+{
+    [DataContract]
+    public class {object_name}
+    {
+        {attributes}     
+
+        public Person({parameter_constructor})
+        {
+			{initialization}
+        }
+    }
+}
