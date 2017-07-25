@@ -14,12 +14,14 @@ namespace KakashiService.Core.Modules.Create
         public static String _serviceName;
         public static String _namespaceValue;
         public static String _projectPath;
+        public static String _logPath;
 
-        public static void SetConfig(string path, string serviceName, string namespaceValue)
+        public static void SetConfig(string path, string serviceName, string namespaceValue, string logPath)
         {
             _path = path;
             _serviceName = serviceName;
             _namespaceValue = namespaceValue;
+            _logPath = logPath;
         }
 
         public static void FileIService(List<Functions> functions)
@@ -127,8 +129,8 @@ namespace KakashiService.Core.Modules.Create
                 var valueFunction = "var value = _db.StringGet(key);\n";
                 var ifFunction = " if(value.IsNullOrEmpty){\n";
                 var responseFunction = String.Format("var response = _client.{0}({1});", function.Name, arguments) +"\n";
-                var tempFunction = "_db.StringSet(key, response.ToString());\nreturn response;\n}\n";
-                var elseFunction = "\nreturn Convert.ToInt32(value);\n}\n";
+                var tempFunction = String.Format("_db.StringSet(key, ConverterType.ConvertToString<{0}>(response));\nreturn response;\n}\n", function.ReturnType);
+                var elseFunction = String.Format("\nreturn ConverterType.ConvertFromString<{0}>(value);\n}\n", function.ReturnType);
 
                 functionValue = functionValue + keyFunction + valueFunction + ifFunction + responseFunction + tempFunction + elseFunction;
             }
@@ -240,6 +242,8 @@ namespace KakashiService.Core.Modules.Create
             {
                 value = reader.ReadToEnd();
             }
+
+            value = value.Replace("{log-path}", _logPath);
 
             FileInfo file = new FileInfo(_path + "/Web.config");
             DirectoryInfo di = new DirectoryInfo(file.DirectoryName);

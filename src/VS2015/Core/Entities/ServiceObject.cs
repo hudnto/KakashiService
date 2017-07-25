@@ -15,6 +15,7 @@ namespace KakashiService.Core.Entities
         public String SvcUtilPath { get; set; }
         public String MsBuildPath { get; set; }
 
+        public String LogPath { get; set; }
         public String IISPath { get; set; }
         public String OriginServiceName { get; set; }
         public List<Functions> Functions { get; set; }

@@ -1,5 +1,6 @@
 using System;
 using StackExchange.Redis;
+using NGT_TypeConverter;
 
 namespace {namespace} {
     public class {serviceName} : I{serviceName}
