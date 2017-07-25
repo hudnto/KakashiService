@@ -10,7 +10,7 @@ namespace KakashiService.Core.Services
             serviceObject.IISPath = ConfigurationManager.AppSettings["iisPath"];
             serviceObject.MsBuildPath = ConfigurationManager.AppSettings["msbuildPath"];
             serviceObject.SvcUtilPath = ConfigurationManager.AppSettings["svcutilPath"];
-            serviceObject.SvcUtilPath = ConfigurationManager.AppSettings["logPath"];
+            serviceObject.LogPath = ConfigurationManager.AppSettings["logPath"];
 
             var readService = new ReadService();
             

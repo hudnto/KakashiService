@@ -61,7 +61,7 @@
       <HintPath>packages\StackExchange.Redis.1.2.4\lib\net45\StackExchange.Redis.dll</HintPath>
       <Private>True</Private>
     </Reference>
-	    <Reference Include="NGT_TypeConverter, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+	<Reference Include="NGT_TypeConverter, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>packages\LuanCaius.MegaSolutionOld.TypeConverter.1.1.0\lib\net45\NGT_TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>

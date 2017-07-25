@@ -129,8 +129,8 @@ namespace KakashiService.Core.Modules.Create
                 var valueFunction = "var value = _db.StringGet(key);\n";
                 var ifFunction = " if(value.IsNullOrEmpty){\n";
                 var responseFunction = String.Format("var response = _client.{0}({1});", function.Name, arguments) +"\n";
-                var tempFunction = String.Format("_db.StringSet(key, ConverterType.ConvertToString<{0}>(response));\nreturn response;\n}\n", function.ReturnType);
-                var elseFunction = String.Format("\nreturn ConverterType.ConvertFromString<{0}>(value);\n}\n", function.ReturnType);
+                var tempFunction = String.Format("_db.StringSet(key, ConverterType.ConvertToString<{0}>(response));", function.ReturnType)+ "\nreturn response;\n}\n";
+                var elseFunction = String.Format("\nreturn ConverterType.ConvertFromString<{0}>(value);", function.ReturnType)+ "\n}\n";
 
                 functionValue = functionValue + keyFunction + valueFunction + ifFunction + responseFunction + tempFunction + elseFunction;
             }
