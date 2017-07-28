@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Site.css" />
     <Content Include="Scripts\Global.js" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -129,7 +130,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21034</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

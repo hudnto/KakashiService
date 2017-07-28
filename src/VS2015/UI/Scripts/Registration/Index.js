@@ -16,20 +16,19 @@ function SubmitForm() {
         method: 'POST',
         url: url,
         success: function (data) {
-            PrintResult(data.modal.status, data.modal.message);
+            PrintResult(data.success, data.modal.message);
         }
     }).fail(function (data) {
-        alert(data.modal.message);
         console.log(data.modal.message);
     });
 }
 
-function PrintResult(status, message) {
+function PrintResult(success, message) {
     $('#result').removeClass("hidden");
     $('#result').append('<div><p>'+message+'<p/></div>');
-    if (status === "success") {
-        $('#result div').addClass("alert-success");
+    if (success) {
+        $('#result div').addClass("alert alert-success");
     } else {
-        $('#result div').addClass("alert-danger");
+        $('#result div').addClass("alert alert-danger");
     }
 }
