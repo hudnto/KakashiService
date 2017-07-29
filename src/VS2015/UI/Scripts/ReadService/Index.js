@@ -1,5 +1,5 @@
 ﻿(function () {
-    $('#btnClone').click(SubmitForm);
+    $('#btnForm').click(SubmitForm);
 })();
 
 function SubmitForm() {

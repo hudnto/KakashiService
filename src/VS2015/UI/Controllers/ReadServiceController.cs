@@ -25,7 +25,7 @@ namespace KakashiService.Web.Controllers
                 return Json(new { success = false });
             }
             var readService = new ReadService();
-            var serviceObject = new ServiceObject();
+            var serviceObject = new ServiceObject(){Url = Url};
             try
             {
                 readService.Execute(serviceObject);
