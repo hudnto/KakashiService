@@ -86,11 +86,13 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\ReadService\Index.js" />
     <Content Include="Scripts\Registration\Index.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ReadServiceController.cs" />
     <Compile Include="ViewModel\ConfigurationVM.cs" />
     <Compile Include="Controllers\RegistrationController.cs" />
     <Compile Include="Global.asax.cs">
@@ -118,6 +120,7 @@
   <ItemGroup>
     <Content Include="App_Code\Modals.cshtml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <Content Include="Views\ReadService\Index.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
