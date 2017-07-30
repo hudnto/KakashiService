@@ -2,34 +2,37 @@
 @{
     ViewBag.Title = "Read Service";
 }
-<h3>Read Service</h3>
-
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Reading Module</h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label class="control-label">Endpoint:</label>
-                    <input id="Url" type="text" class="form-control" placeholder="Type your endpoint to be read"/> 
+<ul class="nav nav-tabs">
+    <li role="presentation" ><a href="@Url.Action("Index","Registration")"  role="tab" >Registration</a></li>
+    <li role="presentation" class="active"><a href="@Url.Action("Index","ReadService")"  role="tab" >Read Service</a></li>
+</ul>
+<div class="tab-pane active">
+    <div class="panel panel-default">
+        @*<div class="panel-heading">
+                <h3 class="panel-title">Reading Module</h3>
+            </div>*@
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="control-label">Endpoint:</label>
+                        <input id="Url" type="text" class="form-control" placeholder="Type your endpoint to be read" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pull-right">
+                        <input id="btnForm" type="button" class="btn btn-primary" value="Read!">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="panel-footer">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="pull-right">
-                    <input id="btnForm" type="button" class="btn btn-primary" value="Read!">
-                </div>
-            </div>
-        </div>
+    <div id="result">
     </div>
-</div>
-<div id="result">
 </div>
 @section scripts{
     <script src="~/Scripts/ReadService/Index.js"></script>

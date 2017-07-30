@@ -2,57 +2,60 @@
 @{
     ViewBag.Title = "Registration";
 }
-<h3>Registration</h3>
-
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Configurations</h3>
+<ul class="nav nav-tabs">
+    <li role="presentation" class="active"><a href="@Url.Action("Index","Registration")" role="tab">Registration</a></li>
+    <li role="presentation"><a href="@Url.Action("Index","ReadService")" role="tab">Read Service</a></li>
+</ul>
+<div class="tab-pane active">
+    <div class="panel panel-default">
+        @*<div class="panel-heading">
+            <h3 class="panel-title">Configurations</h3>
+        </div>*@
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(a => a.ServiceName, new { @class = "control-label" })
+                        @Html.TextBoxFor(a => a.ServiceName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        @Html.LabelFor(a => a.Port, new { @class = "control-label" })
+                        @Html.TextBoxFor(a => a.Port, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(a => a.BuildPath, new { @class = "control-label" })
+                        @Html.TextBoxFor(a => a.BuildPath, new { placeholder = "Type the directory to create your template service", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        @Html.LabelFor(a => a.Url, new { @class = "control-label" })
+                        @Html.TextBoxFor(a => a.Url, new { placeholder = "Type your endpoint to clone", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="pull-right">
+                        <input id="btnClone" type="button" class="btn btn-primary" value="Register!">
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    @Html.LabelFor(a => a.ServiceName, new { @class = "control-label" })
-                    @Html.TextBoxFor(a => a.ServiceName, new { @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    @Html.LabelFor(a => a.Port, new { @class = "control-label" })
-                    @Html.TextBoxFor(a => a.Port, new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(a => a.BuildPath, new { @class = "control-label" })
-                    @Html.TextBoxFor(a => a.BuildPath, new { placeholder = "Type the directory to create your template service", @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                    @Html.LabelFor(a => a.Url, new { @class = "control-label" })
-                    @Html.TextBoxFor(a => a.Url, new { placeholder = "Type your endpoint to clone", @class = "form-control" })
-                </div>
-            </div>
-        </div>
+    <div id="result">
     </div>
-    <div class="panel-footer">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="pull-right">
-                    <input id="btnClone" type="button" class="btn btn-primary" value="Register!">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div id="result">
 </div>
 @section scripts{
-   <script src="~/Scripts/Registration/Index.js"></script>
-     }
+    <script src="~/Scripts/Registration/Index.js"></script>
+}
