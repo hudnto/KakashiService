@@ -19,6 +19,9 @@ function SubmitForm() {
     });
 }
 
-function PrintResult(success, message) {
-
+function PrintResult(data) {
+    var functions = data.response.functions;
+    var total = data.response.totalFunctions;
+    var name = data.response.name;
+    var totalObject = data.response.totalObject;            
 }

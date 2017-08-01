@@ -13,17 +13,23 @@
             </div>*@
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="form-group">
                         <label class="control-label">Endpoint:</label>
-                        <input id="Url" type="text" class="form-control" placeholder="Type your endpoint to be read" />
+                        <input id="Url" type="text" class="form-control" placeholder="Type your endpoint to be read" value="@Model.Url" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="response">
                     </div>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-xs-12">
                     <div class="pull-right">
                         <input id="btnForm" type="button" class="btn btn-primary" value="Read!">
                     </div>

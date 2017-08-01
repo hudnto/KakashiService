@@ -14,7 +14,7 @@ namespace KakashiService.Web.Controllers
         // GET: ReadService
         public ActionResult Index()
         {
-            return View();
+            return View(new ConfigurationVM(true));
         }
 
         [HttpPost]
@@ -29,12 +29,32 @@ namespace KakashiService.Web.Controllers
             try
             {
                 readService.Execute(serviceObject);
-                return Json(new { success = true, modal = new {  title = "Operation Completed!" } }, JsonRequestBehavior.AllowGet);
+                var response = PrepareResponse(serviceObject);
+                return Json(new { success = true, response }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
             {             
                 return Json(new { success = false, modal = new { title = "Operation Fail!" } }, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        private object PrepareResponse(ServiceObject serviceObject)
+        {
+            var functionList = new List<String>();
+            foreach (var function in serviceObject.Functions)
+            {
+                var parameters = String.Empty;
+                foreach (var parameter in function.Parameters.OrderBy(a => a.Order))
+                {
+                    var comma = parameter.Order == function.Parameters.Max(a => a.Order) ? String.Empty : ", ";
+                    parameters += parameter.TypeName + comma;
+                }
+                functionList.Add(String.Format("{0} {1}({2});", function.ReturnType, function.Name, parameters));
+            }
+            var name = serviceObject.OriginServiceName;
+            var totalObject = serviceObject.ObjectTypes.Count;
+
+            return new {name, totalFunctions = serviceObject.Functions.Count, functions = functionList, totalObject};
         }
     }
 }
