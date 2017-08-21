@@ -32,7 +32,7 @@ namespace KakashiService.Web.Controllers
                 var response = PrepareResponse(serviceObject);
                 return Json(new { success = true, response }, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception e)
+            catch (Exception)
             {             
                 return Json(new { success = false, modal = new { title = "Operation Fail!" } }, JsonRequestBehavior.AllowGet);
             }
