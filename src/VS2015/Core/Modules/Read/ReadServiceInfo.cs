@@ -63,18 +63,20 @@ namespace KakashiService.Core.Modules.Read
             var schemaSet = new XmlSchemaSet();
             foreach (XmlSchema schema in serviceDescription.Types.Schemas)
             {
-                if (schema.Includes.Count == 0)
-                {
-                    schemaSet.Add(schema);
-                }
-                else
-                {
-                    foreach (var include in schema.Includes)
-                    {
-                        var schemaLocation = ((XmlSchemaImport)include).SchemaLocation;
-                        schemaSet.Add(schema.SourceUri, schemaLocation);
-                    }
-                }
+                schemaSet.Add(schema);
+
+                //if (schema.Includes.Count == 0)
+                //{
+                //    schemaSet.Add(schema);
+                //}
+                //else
+                //{
+                //    foreach (var include in schema.Includes)
+                //    {
+                //        var schemaLocation = ((XmlSchemaImport)include).SchemaLocation;
+                //        schemaSet.Add(schema.SourceUri, schemaLocation);
+                //    }
+                //}
             }
 
             return schemaSet;
@@ -86,9 +88,9 @@ namespace KakashiService.Core.Modules.Read
             var functions = new List<Functions>();
             foreach (XmlSchema xmlSchema in schemaSet.Schemas())
             {
-                //TODO Make a better solution
-                if (xmlSchema.TargetNamespace.Contains("Serialization"))
-                    continue;
+                ////TODO Make a better solution
+                //if (xmlSchema.TargetNamespace.Contains("Serialization"))
+                //    continue;
                 foreach (object item in xmlSchema.Items)
                 {
                     var function = new Functions();
