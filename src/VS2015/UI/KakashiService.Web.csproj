@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fine-uploader.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Global.js" />
@@ -89,6 +90,7 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\ReadService\fine-uploader.js" />
     <Content Include="Scripts\ReadService\Index.js" />
     <Content Include="Scripts\Registration\Index.js" />
     <Content Include="Web.config" />

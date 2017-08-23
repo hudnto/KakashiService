@@ -38,6 +38,16 @@ namespace KakashiService.Web.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult ImportFile()
+        {
+            var file = HttpContext.Request.Files[0];
+            var stream = file.InputStream;
+            var size = file.ContentLength;
+
+            return Json(new { success = true, modal = new { title = "Operation Fail!" } }, JsonRequestBehavior.AllowGet);
+        }
+
         private object PrepareResponse(ServiceObject serviceObject)
         {
             var functionList = new List<String>();

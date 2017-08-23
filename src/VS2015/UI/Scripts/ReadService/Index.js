@@ -1,5 +1,8 @@
-﻿(function () {
+﻿/// <reference path="C:\Users\Kabulouzo\Source\Repos\KakashiService\src\VS2015\UI\Content/fineUploader/templates/default.html" />
+/// <reference path="C:\Users\Kabulouzo\Source\Repos\KakashiService\src\VS2015\UI\Content/fineUploader/templates/default.html" />
+(function () {
     $('#btnForm').click(SubmitForm);
+    UploadFile();
 })();
 
 function SubmitForm() {
@@ -9,7 +12,7 @@ function SubmitForm() {
     var url = urlRoot + '/ReadService/Read';
     ClearResult();
     $.ajax({
-        data: json,     
+        data: json,
         method: 'POST',
         url: url,
         success: function (data) {
@@ -19,6 +22,19 @@ function SubmitForm() {
         console.log(data);
     });
 }
+
+function UploadFile() {
+    var galleryUploader = new qq.FineUploader({
+        element: document.getElementById("fine-uploader-import"),
+        request: {
+            endpoint: '/ReadService/ImportFile'
+        },
+        validation: {
+            allowedExtensions: ['wsdl', 'xml', 'xsd']
+        }
+    });
+}
+
 
 function PrintResult(data) {
     var functions = data.response.functions;
@@ -32,7 +48,7 @@ function PrintResult(data) {
     $response.append("<label class='control-label'>Service Name: " + name);
 
     $response.append("<label class='control-label'>Total functions: " + total);
-    functions.forEach(function(item, index) {
+    functions.forEach(function (item, index) {
         $response.append("<label class='block'>" + (index + 1) + " - " + item);
     });
 
