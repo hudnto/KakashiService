@@ -11,7 +11,12 @@ namespace KakashiService.Web.Controllers
 {
     public class ReadServiceController : Controller
     {
-        // GET: ReadService
+        private ReadService _readService;
+        public ReadServiceController()
+        {
+            _readService = new ReadService();
+        }
+
         public ActionResult Index()
         {
             return View(new ConfigurationVM(true));
@@ -24,11 +29,10 @@ namespace KakashiService.Web.Controllers
             {
                 return Json(new { success = false });
             }
-            var readService = new ReadService();
             var serviceObject = new ServiceObject(){Url = Url};
             try
             {
-                readService.Execute(serviceObject);
+                _readService.Execute(serviceObject);
                 var response = PrepareResponse(serviceObject);
                 return Json(new { success = true, response }, JsonRequestBehavior.AllowGet);
             }
@@ -43,9 +47,11 @@ namespace KakashiService.Web.Controllers
         {
             var file = HttpContext.Request.Files[0];
             var stream = file.InputStream;
-            var size = file.ContentLength;
 
-            return Json(new { success = true, modal = new { title = "Operation Fail!" } }, JsonRequestBehavior.AllowGet);
+            var serviceObject = new ServiceObject() {FileStream = stream};
+            _readService.Execute(serviceObject);
+            var response = PrepareResponse(serviceObject);
+            return Json(new { success = true, response }, JsonRequestBehavior.AllowGet);
         }
 
         private object PrepareResponse(ServiceObject serviceObject)
@@ -63,8 +69,18 @@ namespace KakashiService.Web.Controllers
             }
             var name = serviceObject.OriginServiceName;
             var totalObject = serviceObject.ObjectTypes.Count;
-
-            return new {name, totalFunctions = serviceObject.Functions.Count, functions = functionList, totalObject};
+            var objectList = new List<String>();
+            foreach (var objectType in serviceObject.ObjectTypes)
+            {
+                var parameters = String.Empty;
+                foreach (var attribute in objectType.Attributes)
+                {
+                    var comma = objectType.Attributes.Any(a => attribute == a) ? ", " : "";
+                    parameters += attribute+comma;
+                }
+                objectList.Add(String.Format("{0} - ({1});", objectType.TypeName, parameters));
+            }
+            return new {name, totalFunctions = serviceObject.Functions.Count, functions = functionList, totalObject, objects = objectList};
         }
     }
 }

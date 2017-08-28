@@ -31,6 +31,11 @@ function UploadFile() {
         },
         validation: {
             allowedExtensions: ['wsdl', 'xml', 'xsd']
+        },
+        callbacks: {
+            onComplete: function (id, fileName, response, xhr) {
+                PrintResult(response);
+            }
         }
     });
 }
@@ -41,18 +46,24 @@ function PrintResult(data) {
     var total = data.response.totalFunctions;
     var name = data.response.name;
     var totalObject = data.response.totalObject;
+    var objects = data.response.objects;
 
-    $('#response').append('<div></div>');
+    var $nameService = $('#nameService');
+    var $functions = $('#functions');
+    var $objects = $('#objects');
 
-    var $response = $('#response div');
-    $response.append("<label class='control-label'>Service Name: " + name);
 
-    $response.append("<label class='control-label'>Total functions: " + total);
+    $nameService.append("<label class='block'>Service Name: " + name);
+
+    $functions.append("<label class='block'>Total functions: " + total);
     functions.forEach(function (item, index) {
-        $response.append("<label class='block'>" + (index + 1) + " - " + item);
+        $functions.append("<label class='block'>" + (index + 1) + " - " + item);
     });
 
-    $response.append("<label class='control-label'>Total objects: " + totalObject);
+    $objects.append("<label class='control-label'>Total objects: " + totalObject);
+    objects.forEach(function (item, index) {
+        $objects.append("<label class='block'>" + (index + 1) + " - " + item);
+    });
 }
 
 function ClearResult() {

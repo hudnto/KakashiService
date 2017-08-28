@@ -29,19 +29,23 @@ namespace KakashiService.Core.Modules.Read
             return _objectTypes;
         }
 
-        public ServiceDescription GetServiceDescriptionFromSVC(string url)
+        public ServiceDescription GetServiceDescriptionFromObject(ServiceObject objectService)
         {
-            UriBuilder uriBuilder = new UriBuilder(url);
-            uriBuilder.Query = "WSDL";
-
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
-            webRequest.ContentType = "text/xml;charset=\"utf-8\"";
-            webRequest.Method = "GET";
-            webRequest.Accept = "text/xml";
-
-            ServiceDescription serviceDescription;
             try
             {
+                if (objectService.FileStream != null)
+                    return ServiceDescription.Read(objectService.FileStream);
+
+                UriBuilder uriBuilder = new UriBuilder(objectService.Url);
+                uriBuilder.Query = "WSDL";
+
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
+                webRequest.ContentType = "text/xml;charset=\"utf-8\"";
+                webRequest.Method = "GET";
+                webRequest.Accept = "text/xml";
+
+                ServiceDescription serviceDescription;
+
                 using (WebResponse response = webRequest.GetResponse())
                 {
                     using (Stream stream = response.GetResponseStream())
@@ -49,13 +53,12 @@ namespace KakashiService.Core.Modules.Read
                         serviceDescription = ServiceDescription.Read(stream);
                     }
                 }
+                return serviceDescription;
             }
             catch (WebException e)
             {
                 throw new WebException("Error while reading service. Check if it is online.", e);
             }
-
-            return serviceDescription;
         }
 
         public XmlSchemaSet GetAllSchema(ServiceDescription serviceDescription)
@@ -89,8 +92,8 @@ namespace KakashiService.Core.Modules.Read
             foreach (XmlSchema xmlSchema in schemaSet.Schemas())
             {
                 ////TODO Make a better solution
-                //if (xmlSchema.TargetNamespace.Contains("Serialization"))
-                //    continue;
+                if (xmlSchema.TargetNamespace.Contains("Serialization"))
+                    continue;
                 foreach (object item in xmlSchema.Items)
                 {
                     var function = new Functions();
@@ -119,8 +122,15 @@ namespace KakashiService.Core.Modules.Read
 
                             if (sequence != null)
                             {
-                                foreach (XmlSchemaElement childElement in sequence.Items)
+                                foreach (XmlSchemaObject teste in sequence.Items)
                                 {
+                                    XmlSchemaElement childElement = teste as XmlSchemaElement;
+                                    XmlSchemaAny childElement2 = teste as XmlSchemaAny;
+                                    var childElement3 = teste.GetType();
+
+                                    if (childElement == null)
+                                        continue;
+
                                     if (schemaElement.Name.Contains("Response"))
                                     {
                                         functionResponse.ReturnType = childElement.SchemaTypeName.Name;

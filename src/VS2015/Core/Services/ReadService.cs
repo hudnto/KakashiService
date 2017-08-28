@@ -1,5 +1,6 @@
 ﻿
 
+using System.IO;
 using KakashiService.Core.Entities;
 using KakashiService.Core.Modules.Read;
 
@@ -11,7 +12,7 @@ namespace KakashiService.Core.Services
         {
             var readServiceInfo = new ReadServiceInfo();
 
-            var serviceDescription = readServiceInfo.GetServiceDescriptionFromSVC(serviceObject.Url);
+            var serviceDescription = readServiceInfo.GetServiceDescriptionFromObject(serviceObject);
 
             var schemaSet = readServiceInfo.GetAllSchema(serviceDescription);
 

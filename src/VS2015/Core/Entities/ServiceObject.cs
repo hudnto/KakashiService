@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace KakashiService.Core.Entities
 {
@@ -8,6 +9,7 @@ namespace KakashiService.Core.Entities
         public String Name { get; set; }
         public String Path { get; set; }
         public String Url { get; set; }
+        public Stream FileStream { get;set; }
 
         public String Namespace { get; set; }
         public int Port { get; set; }
