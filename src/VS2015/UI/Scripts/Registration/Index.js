@@ -1,5 +1,21 @@
 ﻿(function () {
     $('#btnClone').click(SubmitForm);
+    var galleryUploader = new qq.FineUploader({
+        element: document.getElementById("fine-uploader-import"),
+        request: {
+            endpoint: '/Registration/ImportFile'
+        },
+        validation: {
+            allowedExtensions: ['wsdl', 'xml', 'xsd']
+        },
+        callbacks: {
+            onComplete: function (id, fileName, response, xhr) {
+                if (response.success) {
+                    $('[name="Url"]').prop('disabled', 'disabled');
+                }
+            }
+        }
+    });
 })();
 
 function SubmitForm() {
