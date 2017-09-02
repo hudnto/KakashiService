@@ -35,6 +35,8 @@ namespace KakashiService.Core.Modules.Read
             {
                 if (objectService.FileStream != null)
                     return ServiceDescription.Read(objectService.FileStream);
+                if (String.IsNullOrEmpty(objectService.Url))
+                    return null;
 
                 UriBuilder uriBuilder = new UriBuilder(objectService.Url);
                 uriBuilder.Query = "WSDL";
@@ -58,6 +60,10 @@ namespace KakashiService.Core.Modules.Read
             catch (WebException e)
             {
                 throw new WebException("Error while reading service. Check if it is online.", e);
+            }
+            catch (Exception e)
+            {
+                throw new WebException("Error while reading service.", e);
             }
         }
 

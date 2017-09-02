@@ -1,6 +1,7 @@
 ﻿using KakashiService.Core.Services;
 using KakashiService.Web.ViewModel;
 using System;
+using System.IO;
 using System.Threading;
 using System.Web.Mvc;
 using KakashiService.Core.Entities;
@@ -9,12 +10,6 @@ namespace KakashiService.Web.Controllers
 {
     public class RegistrationController : Controller
     {
-        private ServiceObject _serviceObject;
-
-        public RegistrationController()
-        {
-            _serviceObject = new ServiceObject();
-        }
         public ActionResult Index()
         {
             return View(new ConfigurationVM(true));
@@ -29,12 +24,21 @@ namespace KakashiService.Web.Controllers
             {
                 return Json(new { success = false });
             }
-            _serviceObject = ConfigurationVM.Convert(config);
+            var serviceObject = new ServiceObject();
+            ConfigurationVM.Convert(serviceObject, config);
+
+            var bytes = Session["stream"] as byte[];
+            if (bytes != null)
+            {                
+                var stream = new MemoryStream(bytes);
+                serviceObject.FileStream = stream;
+            }
+            
             var main = new MainService();
             try
             {                
-                main.Execute(_serviceObject);
-                message += String.Format("\nEndpoint: http://{0}:{1}/{2}.svc?wsdl", Request.UrlReferrer.Host, _serviceObject.Port, _serviceObject.Name);
+                main.Execute(serviceObject);
+                message += String.Format("\nEndpoint: http://{0}:{1}/{2}.svc?wsdl", Request.UrlReferrer.Host, serviceObject.Port, serviceObject.Name);
                 return Json(new { success = true, modal = new { message, title = "Operation Completed!" } }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception e)
@@ -48,8 +52,9 @@ namespace KakashiService.Web.Controllers
         public JsonResult ImportFile()
         {
             var file = HttpContext.Request.Files[0];
-            var stream = file.InputStream;
-            _serviceObject.FileStream = stream;
+            var tempStream = new MemoryStream();
+            file.InputStream.CopyTo(tempStream);
+            Session["stream"] = tempStream.GetBuffer();
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
     }

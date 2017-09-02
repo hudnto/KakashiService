@@ -33,17 +33,16 @@ namespace KakashiService.Web.ViewModel
             }
         }
 
-        public static ServiceObject Convert(ConfigurationVM source)
+        public static void Convert(ServiceObject destin, ConfigurationVM source)
         {
-            var destin = new ServiceObject();
+            if(destin ==null)
+                destin = new ServiceObject();
 
             destin.Name = source.ServiceName;
             destin.Port = source.Port;
             destin.Namespace = "Kakashi";
             destin.Url = source.Url;
             destin.Path = source.BuildPath;
-
-            return destin;
         }
     }
 }

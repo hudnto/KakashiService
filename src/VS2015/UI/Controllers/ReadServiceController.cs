@@ -48,7 +48,8 @@ namespace KakashiService.Web.Controllers
             var file = HttpContext.Request.Files[0];
             var stream = file.InputStream;
 
-            var serviceObject = new ServiceObject() {FileStream = stream};
+            var serviceObject = new ServiceObject();
+            stream.CopyTo(serviceObject.FileStream);
             _readService.Execute(serviceObject);
             var response = PrepareResponse(serviceObject);
             return Json(new { success = true, response }, JsonRequestBehavior.AllowGet);
