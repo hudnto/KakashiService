@@ -12,8 +12,7 @@ namespace KakashiService.Core.Services
             serviceObject.SvcUtilPath = ConfigurationManager.AppSettings["svcutilPath"];
             serviceObject.LogPath = ConfigurationManager.AppSettings["logPath"];
 
-            var readService = new ReadService();
-            
+            var readService = new ReadService();            
             readService.Execute(serviceObject);
 
             var createService = new CreateService();

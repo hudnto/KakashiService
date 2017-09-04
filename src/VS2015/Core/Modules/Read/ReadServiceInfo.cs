@@ -128,35 +128,37 @@ namespace KakashiService.Core.Modules.Read
 
                             if (sequence != null)
                             {
-                                foreach (XmlSchemaObject teste in sequence.Items)
+                                if (sequence.Items.Count == 0 && schemaElement.Name.Contains("Response"))
                                 {
-                                    XmlSchemaElement childElement = teste as XmlSchemaElement;
-                                    XmlSchemaAny childElement2 = teste as XmlSchemaAny;
-                                    var childElement3 = teste.GetType();
-
-                                    if (childElement == null)
-                                        continue;
-
-                                    if (schemaElement.Name.Contains("Response"))
-                                    {
-                                        functionResponse.ReturnType = childElement.SchemaTypeName.Name;
-                                    }
-                                    else
-                                    {
-                                        function.Parameters.Add(new Parameter(index, childElement.SchemaTypeName.Name));
-                                        index++;
-                                    }
+                                    functionResponse.ReturnType = "void";
                                 }
-                            }
-                            if (schemaComplexType.AttributeUses.Count > 0)
-                            {
-                                IDictionaryEnumerator enumerator = schemaComplexType.AttributeUses.GetEnumerator();
-
-                                while (enumerator.MoveNext())
+                                else
                                 {
-                                    XmlSchemaAttribute attribute = (XmlSchemaAttribute)enumerator.Value;
+                                    foreach (XmlSchemaObject schemaObject in sequence.Items)
+                                    {
+                                        XmlSchemaElement childElement = schemaObject as XmlSchemaElement;
 
-                                    Console.Out.WriteLine("      Attribute/Type: {0}", attribute.Name);
+                                        if (childElement == null)
+                                            continue;
+
+                                        if (schemaElement.Name.Contains("Response"))
+                                        {
+                                            if (string.IsNullOrEmpty(childElement.SchemaTypeName.Name))
+                                            {
+                                                functionResponse.ReturnType = "void";
+                                            }
+                                            else
+                                            {
+                                                functionResponse.ReturnType = Util.NormalizeVariable(childElement.SchemaTypeName.Name);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            function.Parameters.Add(new Parameter(index,
+                                                childElement.SchemaTypeName.Name));
+                                            index++;
+                                        }
+                                    }
                                 }
                             }
                             if (schemaElement.Name.Contains("Response"))
@@ -172,19 +174,8 @@ namespace KakashiService.Core.Modules.Read
                     }
                     else if (complexType != null)
                     {
-                        Console.Out.WriteLine("Complex Type: {0}", complexType.Name);
                         var objectType = new ObjectType(index, complexType.Name);
                         OutputElements(complexType.Particle, objectType);
-                        if (complexType.AttributeUses.Count > 0)
-                        {
-                            IDictionaryEnumerator enumerator = complexType.AttributeUses.GetEnumerator();
-
-                            while (enumerator.MoveNext())
-                            {
-                                XmlSchemaAttribute attribute = (XmlSchemaAttribute)enumerator.Value;
-                                Console.Out.WriteLine("      Attribute/Type: {0}", attribute.Name);
-                            }
-                        }
                     }
                 }
             }
@@ -196,19 +187,14 @@ namespace KakashiService.Core.Modules.Read
                 function.ReturnType = response.ReturnType;
             }
 
-
             return functions;
         }
 
         private void OutputElements(XmlSchemaParticle particle, ObjectType objectType)
         {
             XmlSchemaSequence sequence = particle as XmlSchemaSequence;
-            XmlSchemaChoice choice = particle as XmlSchemaChoice;
-            XmlSchemaAll all = particle as XmlSchemaAll;
             if (sequence != null)
             {
-                Console.Out.WriteLine("  Sequence");
-
                 for (int i = 0; i < sequence.Items.Count; i++)
                 {
                     XmlSchemaElement childElement = sequence.Items[i] as XmlSchemaElement;
@@ -216,8 +202,6 @@ namespace KakashiService.Core.Modules.Read
 
                     if (childElement != null)
                     {
-                        Console.Out.WriteLine("    Element/Type: {0}:{1}", childElement.Name,
-                            childElement.SchemaTypeName.Name);
                         objectType.Attributes.Add(childElement.SchemaTypeName.Name);
                     }
                     else

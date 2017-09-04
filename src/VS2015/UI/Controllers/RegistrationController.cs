@@ -43,7 +43,7 @@ namespace KakashiService.Web.Controllers
             }
             catch (Exception e)
             {
-                message = "Error cloning! Exception message: "+e.Message;
+                message = "Error cloning! ("+e.Message+")";
                 return Json(new { success = false, modal = new { message, title = "Operation Fail!" } }, JsonRequestBehavior.AllowGet);
             }
         }

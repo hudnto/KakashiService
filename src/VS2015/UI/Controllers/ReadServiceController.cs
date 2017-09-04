@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using KakashiService.Core.Entities;
+using KakashiService.Core.Modules.Read;
 using KakashiService.Core.Services;
 using KakashiService.Web.ViewModel;
 
@@ -49,7 +50,7 @@ namespace KakashiService.Web.Controllers
             var stream = file.InputStream;
 
             var serviceObject = new ServiceObject();
-            stream.CopyTo(serviceObject.FileStream);
+            serviceObject.FileStream = stream;
             _readService.Execute(serviceObject);
             var response = PrepareResponse(serviceObject);
             return Json(new { success = true, response }, JsonRequestBehavior.AllowGet);
@@ -64,7 +65,7 @@ namespace KakashiService.Web.Controllers
                 foreach (var parameter in function.Parameters.OrderBy(a => a.Order))
                 {
                     var comma = parameter.Order == function.Parameters.Max(a => a.Order) ? String.Empty : ", ";
-                    parameters += parameter.TypeName + comma;
+                    parameters += parameter.Type + comma;
                 }
                 functionList.Add(String.Format("{0} {1}({2});", function.ReturnType, function.Name, parameters));
             }
@@ -79,7 +80,7 @@ namespace KakashiService.Web.Controllers
                     var comma = objectType.Attributes.Any(a => attribute == a) ? ", " : "";
                     parameters += attribute+comma;
                 }
-                objectList.Add(String.Format("{0} - ({1});", objectType.TypeName, parameters));
+                objectList.Add(String.Format("{0} - ({1});", objectType.Type, parameters));
             }
             return new {name, totalFunctions = serviceObject.Functions.Count, functions = functionList, totalObject, objects = objectList};
         }

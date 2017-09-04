@@ -60,9 +60,8 @@
     <Compile Include="Modules\Create\CreateFile.cs" />
     <Compile Include="Entities\Functions.cs" />
     <Compile Include="Entities\ServiceObject.cs" />
-    <Compile Include="Entities\TypeVariable.cs" />
     <Compile Include="Modules\Read\ReadServiceInfo.cs" />
-    <Compile Include="Modules\Read\Util.cs" />
+    <Compile Include="Modules\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\BuildService.cs" />
     <Compile Include="Services\CreateService.cs" />
@@ -92,9 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Modules\Create\TemplatesFile\Webconfig.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Modules\Create\TemplatesFile\DataContract.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Modules\Create\TemplatesFile\Package.txt" />

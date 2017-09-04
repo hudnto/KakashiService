@@ -12,23 +12,25 @@ namespace KakashiService.Core.Modules.Build
         // using SvcUtil
         public static void CreateProxyClass(ServiceObject service)
         {
-            // Get Resource file 
-            var fileName = "PowerShellScript.svcutil.ps1";
-            var assembly = Assembly.GetExecutingAssembly();
-            var allResources = assembly.GetManifestResourceNames();
-            var resourceName = allResources.First(a => a.Contains(fileName));
-
-            String command = String.Empty;
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                command = reader.ReadToEnd();
-            }
+            var command = Util.GetTemplate("PowerShellScript.svcutil.ps1");
 
             command = command.Replace("@svcutilPath", service.SvcUtilPath);
             command = command.Replace("@projectPath", service.Path);
+
+            if (service.FileStream != null)
+            {
+                var filePath = service.Path + "//proxy.wsdl";
+                var memory = new MemoryStream();
+                service.FileStream.CopyTo(memory);
+                FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+                memory.WriteTo(file);
+                file.Close();
+                memory.Close();
+                service.Url = filePath;
+            }
+
             command = command.Replace("@url", service.Url);
+
             command = command.Replace("@originService", service.OriginServiceName);
             command = command.Replace("@namespace", service.Namespace);
 
@@ -44,21 +46,9 @@ namespace KakashiService.Core.Modules.Build
 
         public static void Restore(string nugetPath, string projectPath)
         {
-            // Get Resource file 
-            var fileName = "PowerShellScript.restore.ps1";
-            var assembly = Assembly.GetExecutingAssembly();
-            var allResources = assembly.GetManifestResourceNames();
-            var resourceName = allResources.First(a => a.Contains(fileName));
+            var command = Util.GetTemplate("PowerShellScript.restore.ps1");
 
             var solutionPath = projectPath.Replace(".csproj", ".sln");
-
-            String command = String.Empty;
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                command = reader.ReadToEnd();
-            }
 
             command = command.Replace("@solutionPath", solutionPath);
             command = command.Replace("@nugetPath", nugetPath);
@@ -74,19 +64,7 @@ namespace KakashiService.Core.Modules.Build
 
         public static void Build(string projectPath, string msbuildPath)
         {
-            // Get Resource file 
-            var fileName = "PowerShellScript.build.ps1";
-            var assembly = Assembly.GetExecutingAssembly();
-            var allResources = assembly.GetManifestResourceNames();
-            var resourceName = allResources.First(a => a.Contains(fileName));
-
-            String command = String.Empty;
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-             using (StreamReader reader = new StreamReader(stream))
-            {
-                command = reader.ReadToEnd();
-            }
+            var command = Util.GetTemplate("PowerShellScript.build.ps1");
 
             command = command.Replace("@msbuildPath", msbuildPath);
             command = command.Replace("@projectPath", projectPath);
@@ -102,19 +80,7 @@ namespace KakashiService.Core.Modules.Build
 
         public static void MoveBin(string source, string destin)
         {
-            // Get Resource file 
-            var fileName = "PowerShellScript.moveBin.ps1";
-            var assembly = Assembly.GetExecutingAssembly();
-            var allResources = assembly.GetManifestResourceNames();
-            var resourceName = allResources.First(a => a.Contains(fileName));
-
-            String command = String.Empty;
-
-            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                command = reader.ReadToEnd();
-            }
+            var command = Util.GetTemplate("PowerShellScript.moveBin.ps1");
 
             command = command.Replace("{path}", source);
             command = command.Replace("{isspath}", destin);
