@@ -176,6 +176,17 @@ namespace KakashiService.Core.Modules.Create
             Util.CreateFile(projectPath, value);
         }
 
-
+        public static void CreateProxyClassFromStream(ServiceObject service)
+        {
+            if (service.FileStream != null)
+            {
+                var filePath = service.Path + "\\proxy.wsdl";
+                var file = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
+                service.FileStream.Position = 0;
+                service.FileStream.CopyTo(file);   
+                file.Close();            
+                service.Url = filePath;
+            }
+        }
     }
 }

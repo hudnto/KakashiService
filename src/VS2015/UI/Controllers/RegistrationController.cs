@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Web.Mvc;
 using KakashiService.Core.Entities;
+using KakashiService.Core.Modules;
 
 namespace KakashiService.Web.Controllers
 {
@@ -33,7 +34,7 @@ namespace KakashiService.Web.Controllers
                 var stream = new MemoryStream(bytes);
                 serviceObject.FileStream = stream;
             }
-            
+
             var main = new MainService();
             try
             {                
@@ -54,7 +55,7 @@ namespace KakashiService.Web.Controllers
             var file = HttpContext.Request.Files[0];
             var tempStream = new MemoryStream();
             file.InputStream.CopyTo(tempStream);
-            Session["stream"] = tempStream.GetBuffer();
+            Session["stream"] = tempStream.ToArray();
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
     }

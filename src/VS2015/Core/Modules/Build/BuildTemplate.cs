@@ -16,21 +16,7 @@ namespace KakashiService.Core.Modules.Build
 
             command = command.Replace("@svcutilPath", service.SvcUtilPath);
             command = command.Replace("@projectPath", service.Path);
-
-            if (service.FileStream != null)
-            {
-                var filePath = service.Path + "//proxy.wsdl";
-                var memory = new MemoryStream();
-                service.FileStream.CopyTo(memory);
-                FileStream file = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-                memory.WriteTo(file);
-                file.Close();
-                memory.Close();
-                service.Url = filePath;
-            }
-
             command = command.Replace("@url", service.Url);
-
             command = command.Replace("@originService", service.OriginServiceName);
             command = command.Replace("@namespace", service.Namespace);
 

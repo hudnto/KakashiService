@@ -55,5 +55,13 @@ namespace KakashiService.Core.Modules
                 }
             }
         }
+
+        public static void WriteFileFromStream(Stream stream, string path)
+        {
+            var file = new FileStream(path, FileMode.Create, FileAccess.ReadWrite);
+            stream.Position = 0;
+            stream.CopyTo(file);
+            file.Close();
+        }
     }
 }

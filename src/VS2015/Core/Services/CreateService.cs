@@ -15,6 +15,7 @@ namespace KakashiService.Core.Services
             CreateFile.WebConfig();
             CreateFile.Package();
             CreateFile.Solution();
+            CreateFile.CreateProxyClassFromStream(service);
         }
     }
 }
