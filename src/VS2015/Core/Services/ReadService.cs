@@ -14,11 +14,13 @@ namespace KakashiService.Core.Services
 
             var serviceDescription = readServiceInfo.GetServiceDescriptionFromObject(serviceObject);
 
-            var schemaSet = readServiceInfo.GetAllSchema(serviceDescription);
+            readServiceInfo.ExtractAllFromService(serviceDescription, serviceObject);
 
-            serviceObject.Functions = readServiceInfo.ExtractItemXml(schemaSet);
+            //var schemaSet = readServiceInfo.GetAllSchema(serviceDescription);
 
-            serviceObject.ObjectTypes = readServiceInfo.GetObjectTypes();
+            //serviceObject.Functions = readServiceInfo.ExtractItemXml(schemaSet);
+
+            //serviceObject.ObjectTypes = readServiceInfo.GetObjectTypes();
 
             serviceObject.OriginServiceName = string.IsNullOrEmpty(serviceDescription.Name) ? serviceDescription.PortTypes[0].Name : serviceDescription.Name;
         }

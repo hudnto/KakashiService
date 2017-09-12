@@ -73,22 +73,18 @@ namespace KakashiService.Core.Modules.Read
             foreach (XmlSchema schema in serviceDescription.Types.Schemas)
             {
                 schemaSet.Add(schema);
-
-                //if (schema.Includes.Count == 0)
-                //{
-                //    schemaSet.Add(schema);
-                //}
-                //else
-                //{
-                //    foreach (var include in schema.Includes)
-                //    {
-                //        var schemaLocation = ((XmlSchemaImport)include).SchemaLocation;
-                //        schemaSet.Add(schema.SourceUri, schemaLocation);
-                //    }
-                //}
             }
 
             return schemaSet;
+        }
+
+        public void ExtractAllFromService(ServiceDescription serviceDescription, ServiceObject serviceObject)
+        {
+            var schemaSet = new XmlSchemaSet();
+            foreach (XmlSchema schema in serviceDescription.Types.Schemas)
+            {
+                schemaSet.Add(schema);
+            }
         }
 
         public List<Functions> ExtractItemXml(XmlSchemaSet schemaSet)
