@@ -16,12 +16,6 @@ namespace KakashiService.Core.Services
 
             readServiceInfo.ExtractAllFromService(serviceDescription, serviceObject);
 
-            //var schemaSet = readServiceInfo.GetAllSchema(serviceDescription);
-
-            //serviceObject.Functions = readServiceInfo.ExtractItemXml(schemaSet);
-
-            //serviceObject.ObjectTypes = readServiceInfo.GetObjectTypes();
-
             serviceObject.OriginServiceName = string.IsNullOrEmpty(serviceDescription.Name) ? serviceDescription.PortTypes[0].Name : serviceDescription.Name;
         }
     }

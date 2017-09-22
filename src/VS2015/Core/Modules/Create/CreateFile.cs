@@ -22,6 +22,16 @@ namespace KakashiService.Core.Modules.Create
             _serviceName = serviceName;
             _namespaceValue = namespaceValue;
             _logPath = logPath;
+            DirectoryInfo di = new DirectoryInfo(_path);
+            if (!di.Exists)
+            {
+                di.Create();
+            }
+            else
+            {
+                di.Delete(true);
+                di.Create();
+            }
         }
 
         public static void FileIService(List<Functions> functions)

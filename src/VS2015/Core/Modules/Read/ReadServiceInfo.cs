@@ -67,6 +67,15 @@ namespace KakashiService.Core.Modules.Read
             }
         }
 
+        public void ExtractAllFromService(ServiceDescription serviceDescription, ServiceObject serviceObject)
+        {
+            var schemaSet = new XmlSchemaSet();
+            foreach (XmlSchema schema in serviceDescription.Types.Schemas)
+            {
+                schemaSet.Add(schema);
+            }
+        }
+
         public XmlSchemaSet GetAllSchema(ServiceDescription serviceDescription)
         {
             var schemaSet = new XmlSchemaSet();
@@ -76,15 +85,6 @@ namespace KakashiService.Core.Modules.Read
             }
 
             return schemaSet;
-        }
-
-        public void ExtractAllFromService(ServiceDescription serviceDescription, ServiceObject serviceObject)
-        {
-            var schemaSet = new XmlSchemaSet();
-            foreach (XmlSchema schema in serviceDescription.Types.Schemas)
-            {
-                schemaSet.Add(schema);
-            }
         }
 
         public List<Functions> ExtractItemXml(XmlSchemaSet schemaSet)
