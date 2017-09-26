@@ -112,8 +112,11 @@ namespace KakashiService.Core.Modules.Read
                 }
 
             }
+            var allObjects = new List<ElementType>();
+            var allAttributes = new List<ElementType>();
             foreach (var complexElement in complexElements)
             {
+                var objectType = new ElementType(complexElement.Name, complexElement.QualifiedName.Namespace, complexElement.QualifiedName.Name);
                 XmlSchemaParticle particle = complexElement.Particle;
                 XmlSchemaSequence sequence = particle as XmlSchemaSequence;
 
@@ -122,13 +125,21 @@ namespace KakashiService.Core.Modules.Read
                     foreach (XmlSchemaObject schemaObject in sequence.Items)
                     {
                         XmlSchemaElement childElement = schemaObject as XmlSchemaElement;
-                        var a = childElement.Name;
+                        var temp = new ElementType(childElement.Name, childElement.SchemaTypeName.Namespace, childElement.SchemaTypeName.Name);
+                        objectType.Attributes.Add(temp);
+                        allAttributes.Add(temp);
                     }
                 }
-            
+                allObjects.Add(objectType);            
             }
 
-            var teste = 1;
+            var stringObjects= allAttributes.Where(a => a.Type=="string").ToList();
+            var intObjects = allAttributes.Where(a => a.Type == "int").ToList();
+            var dateObjects = allAttributes.Where(a => a.Type == "dateTime").ToList();
+            var other = allAttributes.Where(a => a.Type != "string" && a.Type != "int" && a.Type != "dateTime" && a.Type != "unsignedInt"
+            && a.Type != "boolean" && a.Type != "decimal" && a.Type != "long" && a.Type != "short" && a.Type != "float" && a.Namespace=="http://www.w3.org/2001/XMLSchema").ToList();
+            var otherNamespace = allAttributes.Where(a => a.Namespace != "http://www.w3.org/2001/XMLSchema").ToList();
+            var xmlSchemaNamespace = allAttributes.Where(a => a.Namespace == "http://www.w3.org/2001/XMLSchema").ToList();
         }
 
         public XmlSchemaSet GetAllSchema(ServiceDescription serviceDescription)
@@ -264,5 +275,22 @@ namespace KakashiService.Core.Modules.Read
                 AddObject(objectType);
             }
         }
+    }
+
+    public class ElementType
+    {
+        public ElementType(String name, String namespaceValue, String type)
+        {
+            Name = name;
+            Namespace = namespaceValue;
+            Type = type;
+            Attributes = new List<ElementType>();
+        }
+
+        public String Name { get; set; }
+        public String Namespace { get; set; }
+        public String Type { get; set; }        
+        public int Count { get; set; }
+        public List<ElementType> Attributes { get; set; }
     }
 }
