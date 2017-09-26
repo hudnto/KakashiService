@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web.Services.Description;
 using System.Xml.Schema;
 
@@ -74,6 +75,60 @@ namespace KakashiService.Core.Modules.Read
             {
                 schemaSet.Add(schema);
             }
+
+            var functions = new List<String>();
+            foreach (Operation operation in serviceDescription.PortTypes[0].Operations)
+            {
+                functions.Add(operation.Name);
+            }
+
+            foreach (Message message in serviceDescription.Messages)
+            {
+                var a = message;
+                var b = a.Parts[0];
+                var c = b.Element;
+            }
+
+
+            var complexElements = new List<XmlSchemaComplexType>();
+            var simpleElements = new List<XmlSchemaType>();
+            var elements = new List<XmlSchemaElement>();
+            foreach (XmlSchema xmlSchema in schemaSet.Schemas())
+            {
+                foreach (object item in xmlSchema.Items)
+                {
+                    XmlSchemaComplexType complexType = item as XmlSchemaComplexType;
+                    XmlSchemaType schemaType = item as XmlSchemaType;
+                    XmlSchemaElement element = item as XmlSchemaElement;
+
+                    if (complexType != null)
+                        complexElements.Add(complexType);
+
+                    if (schemaType != null)
+                        simpleElements.Add(schemaType);
+
+                    if (element != null)
+                        elements.Add(element);
+                }
+
+            }
+            foreach (var complexElement in complexElements)
+            {
+                XmlSchemaParticle particle = complexElement.Particle;
+                XmlSchemaSequence sequence = particle as XmlSchemaSequence;
+
+                if (sequence != null)
+                {
+                    foreach (XmlSchemaObject schemaObject in sequence.Items)
+                    {
+                        XmlSchemaElement childElement = schemaObject as XmlSchemaElement;
+                        var a = childElement.Name;
+                    }
+                }
+            
+            }
+
+            var teste = 1;
         }
 
         public XmlSchemaSet GetAllSchema(ServiceDescription serviceDescription)
