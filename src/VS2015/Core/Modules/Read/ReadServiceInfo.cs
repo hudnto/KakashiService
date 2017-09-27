@@ -7,56 +7,30 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web.Services.Description;
+using System.Xml;
 using System.Xml.Schema;
 
 namespace KakashiService.Core.Modules.Read
 {
     public class ReadServiceInfo
     {
-        private List<ObjectType> _objectTypes;
+        private List<XmlDocument> _xmlDocs;
 
         public ReadServiceInfo()
         {
-            _objectTypes = new List<ObjectType>();
+            _xmlDocs = new List<XmlDocument>();
         }
 
-        private void AddObject(ObjectType objectType)
+        public XmlDocument GetXmlFromStream(FileStream stream)
         {
-            _objectTypes.Add(objectType);
-        }
-
-        public List<ObjectType> GetObjectTypes()
-        {
-            return _objectTypes;
-        }
-
-        public ServiceDescription GetServiceDescriptionFromObject(ServiceObject objectService)
-        {
+            XmlDocument xmlDoc = new XmlDocument();
             try
             {
-                if (objectService.FileStream != null)
-                    return ServiceDescription.Read(objectService.FileStream);
-                if (String.IsNullOrEmpty(objectService.Url))
-                    return null;
-
-                UriBuilder uriBuilder = new UriBuilder(objectService.Url);
-                uriBuilder.Query = "WSDL";
-
-                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
-                webRequest.ContentType = "text/xml;charset=\"utf-8\"";
-                webRequest.Method = "GET";
-                webRequest.Accept = "text/xml";
-
-                ServiceDescription serviceDescription;
-
-                using (WebResponse response = webRequest.GetResponse())
+                if (stream != null)
                 {
-                    using (Stream stream = response.GetResponseStream())
-                    {
-                        serviceDescription = ServiceDescription.Read(stream);
-                    }
+                    xmlDoc.Load(stream);
                 }
-                return serviceDescription;
+                return xmlDoc;
             }
             catch (WebException e)
             {
@@ -64,233 +38,63 @@ namespace KakashiService.Core.Modules.Read
             }
             catch (Exception e)
             {
-                throw new WebException("Error while reading service.", e);
+                throw new WebException("Error while reading service. General error", e);
             }
         }
 
-        public void ExtractAllFromService(ServiceDescription serviceDescription, ServiceObject serviceObject)
+        public XmlDocument GetXmlFromUrl(String url)
         {
-            var schemaSet = new XmlSchemaSet();
-            foreach (XmlSchema schema in serviceDescription.Types.Schemas)
+            var xml = new XmlDocument();
+            try
             {
-                schemaSet.Add(schema);
-            }
+                UriBuilder uriBuilder = new UriBuilder(url);
+                uriBuilder.Query = "WSDL";
 
-            var functions = new List<String>();
-            foreach (Operation operation in serviceDescription.PortTypes[0].Operations)
-            {
-                functions.Add(operation.Name);
-            }
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
+                webRequest.ContentType = "text/xml;charset=\"utf-8\"";
+                webRequest.Method = "GET";
+                webRequest.Accept = "text/xml";
 
-            foreach (Message message in serviceDescription.Messages)
-            {
-                var a = message;
-                var b = a.Parts[0];
-                var c = b.Element;
-            }
-
-
-            var complexElements = new List<XmlSchemaComplexType>();
-            var simpleElements = new List<XmlSchemaType>();
-            var elements = new List<XmlSchemaElement>();
-            foreach (XmlSchema xmlSchema in schemaSet.Schemas())
-            {
-                foreach (object item in xmlSchema.Items)
+                using (WebResponse response = webRequest.GetResponse())
                 {
-                    XmlSchemaComplexType complexType = item as XmlSchemaComplexType;
-                    XmlSchemaType schemaType = item as XmlSchemaType;
-                    XmlSchemaElement element = item as XmlSchemaElement;
-
-                    if (complexType != null)
-                        complexElements.Add(complexType);
-
-                    if (schemaType != null)
-                        simpleElements.Add(schemaType);
-
-                    if (element != null)
-                        elements.Add(element);
-                }
-
-            }
-            var allObjects = new List<ElementType>();
-            var allAttributes = new List<ElementType>();
-            foreach (var complexElement in complexElements)
-            {
-                var objectType = new ElementType(complexElement.Name, complexElement.QualifiedName.Namespace, complexElement.QualifiedName.Name);
-                XmlSchemaParticle particle = complexElement.Particle;
-                XmlSchemaSequence sequence = particle as XmlSchemaSequence;
-
-                if (sequence != null)
-                {
-                    foreach (XmlSchemaObject schemaObject in sequence.Items)
+                    using (Stream stream = response.GetResponseStream())
                     {
-                        XmlSchemaElement childElement = schemaObject as XmlSchemaElement;
-                        var temp = new ElementType(childElement.Name, childElement.SchemaTypeName.Namespace, childElement.SchemaTypeName.Name);
-                        objectType.Attributes.Add(temp);
-                        allAttributes.Add(temp);
+                        xml.Load(stream);
                     }
                 }
-                allObjects.Add(objectType);            
+                return xml;
             }
-
-            var stringObjects= allAttributes.Where(a => a.Type=="string").ToList();
-            var intObjects = allAttributes.Where(a => a.Type == "int").ToList();
-            var dateObjects = allAttributes.Where(a => a.Type == "dateTime").ToList();
-            var other = allAttributes.Where(a => a.Type != "string" && a.Type != "int" && a.Type != "dateTime" && a.Type != "unsignedInt"
-            && a.Type != "boolean" && a.Type != "decimal" && a.Type != "long" && a.Type != "short" && a.Type != "float" && a.Namespace=="http://www.w3.org/2001/XMLSchema").ToList();
-            var otherNamespace = allAttributes.Where(a => a.Namespace != "http://www.w3.org/2001/XMLSchema").ToList();
-            var xmlSchemaNamespace = allAttributes.Where(a => a.Namespace == "http://www.w3.org/2001/XMLSchema").ToList();
-        }
-
-        public XmlSchemaSet GetAllSchema(ServiceDescription serviceDescription)
-        {
-            var schemaSet = new XmlSchemaSet();
-            foreach (XmlSchema schema in serviceDescription.Types.Schemas)
+            catch (WebException e)
             {
-                schemaSet.Add(schema);
+                throw new WebException("Error while reading service. Check if it is online.", e);
             }
-
-            return schemaSet;
-        }
-
-        public List<Functions> ExtractItemXml(XmlSchemaSet schemaSet)
-        {
-            var functionsResponse = new List<Functions>();
-            var functions = new List<Functions>();
-            foreach (XmlSchema xmlSchema in schemaSet.Schemas())
+            catch (Exception e)
             {
-                ////TODO Make a better solution
-                if (xmlSchema.TargetNamespace.Contains("Serialization"))
-                    continue;
-                foreach (object item in xmlSchema.Items)
-                {
-                    var function = new Functions();
-                    var functionResponse = new Functions();
-                    XmlSchemaElement schemaElement = item as XmlSchemaElement;
-                    XmlSchemaComplexType complexType = item as XmlSchemaComplexType;
-                    var index = 0;
-
-                    if (schemaElement != null)
-                    {
-                        if (schemaElement.Name.Contains("Response"))
-                        {
-                            functionResponse.Name = schemaElement.Name;
-                        }
-                        else
-                        {
-                            function.Name = schemaElement.Name;
-                        }
-                        XmlSchemaType schemaType = schemaElement.SchemaType;
-                        XmlSchemaComplexType schemaComplexType = schemaType as XmlSchemaComplexType;
-
-                        if (schemaComplexType != null)
-                        {
-                            XmlSchemaParticle particle = schemaComplexType.Particle;
-                            XmlSchemaSequence sequence = particle as XmlSchemaSequence;
-
-                            if (sequence != null)
-                            {
-                                if (sequence.Items.Count == 0 && schemaElement.Name.Contains("Response"))
-                                {
-                                    functionResponse.ReturnType = "void";
-                                }
-                                else
-                                {
-                                    foreach (XmlSchemaObject schemaObject in sequence.Items)
-                                    {
-                                        XmlSchemaElement childElement = schemaObject as XmlSchemaElement;
-
-                                        if (childElement == null)
-                                            continue;
-
-                                        if (schemaElement.Name.Contains("Response"))
-                                        {
-                                            if (string.IsNullOrEmpty(childElement.SchemaTypeName.Name))
-                                            {
-                                                functionResponse.ReturnType = "void";
-                                            }
-                                            else
-                                            {
-                                                functionResponse.ReturnType = Util.NormalizeVariable(childElement.SchemaTypeName.Name);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            function.Parameters.Add(new Parameter(index,
-                                                childElement.SchemaTypeName.Name));
-                                            index++;
-                                        }
-                                    }
-                                }
-                            }
-                            if (schemaElement.Name.Contains("Response"))
-                            {
-                                functionsResponse.Add(functionResponse);
-                            }
-                            else
-                            {
-                                functions.Add(function);
-                            }
-                        }
-
-                    }
-                    else if (complexType != null)
-                    {
-                        var objectType = new ObjectType(index, complexType.Name);
-                        OutputElements(complexType.Particle, objectType);
-                    }
-                }
+                throw new WebException("Error while reading service. General error", e);
             }
-
-            foreach (var response in functionsResponse)
-            {
-                var functionName = response.Name.Replace("Response", "");
-                var function = functions.First(a => a.Name == functionName);
-                function.ReturnType = response.ReturnType;
-            }
-
-            return functions;
         }
 
-        private void OutputElements(XmlSchemaParticle particle, ObjectType objectType)
+        public XmlDocument GetXml(ServiceObject serviceObject)
         {
-            XmlSchemaSequence sequence = particle as XmlSchemaSequence;
-            if (sequence != null)
-            {
-                for (int i = 0; i < sequence.Items.Count; i++)
-                {
-                    XmlSchemaElement childElement = sequence.Items[i] as XmlSchemaElement;
-                    XmlSchemaComplexType childComplexType = sequence.Items[i] as XmlSchemaComplexType;
-
-                    if (childElement != null)
-                    {
-                        objectType.Attributes.Add(childElement.SchemaTypeName.Name);
-                    }
-                    else
-                    {
-                        var name = childComplexType.Name;
-                        OutputElements(sequence.Items[i] as XmlSchemaParticle, new ObjectType(0, name));
-                    }
-                }
-                AddObject(objectType);
-            }
+            return new XmlDocument();
         }
-    }
 
-    public class ElementType
-    {
-        public ElementType(String name, String namespaceValue, String type)
+        public void GetImportedFiles()
         {
-            Name = name;
-            Namespace = namespaceValue;
-            Type = type;
-            Attributes = new List<ElementType>();
+            // check if it needs to import files
+
+            // update xml document 
         }
 
-        public String Name { get; set; }
-        public String Namespace { get; set; }
-        public String Type { get; set; }        
-        public int Count { get; set; }
-        public List<ElementType> Attributes { get; set; }
+        public List<XmlDocument> GetAllXML(ServiceObject serviceObject)
+        {
+            var xml = GetXml(serviceObject);
+
+            _xmlDocs.Add(xml);
+
+            GetImportedFiles();
+
+            return _xmlDocs;
+        }
     }
 }
