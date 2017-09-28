@@ -21,7 +21,7 @@ namespace KakashiService.Core.Modules.Read
             _xmlDocs = new List<XmlDocument>();
         }
 
-        public XmlDocument GetXmlFromStream(FileStream stream)
+        private XmlDocument GetXmlFromStream(Stream stream)
         {
             XmlDocument xmlDoc = new XmlDocument();
             try
@@ -42,7 +42,7 @@ namespace KakashiService.Core.Modules.Read
             }
         }
 
-        public XmlDocument GetXmlFromUrl(String url)
+        private XmlDocument GetXmlFromUrl(String url)
         {
             var xml = new XmlDocument();
             try
@@ -74,27 +74,34 @@ namespace KakashiService.Core.Modules.Read
             }
         }
 
-        public XmlDocument GetXml(ServiceObject serviceObject)
+        private XmlDocument GetXml(ServiceObject serviceObject)
         {
-            return new XmlDocument();
+            if(serviceObject.FileStream == null)
+            {
+                return GetXmlFromUrl(serviceObject.Url);
+            }
+            else
+            {
+                return GetXmlFromStream(serviceObject.FileStream);
+            }            
         }
 
-        public void GetImportedFiles()
+        private void GetImportedFiles()
         {
-            // check if it needs to import files
+            // check for import tags
 
-            // update xml document 
+            // add new xml document to the list
         }
 
-        public List<XmlDocument> GetAllXML(ServiceObject serviceObject)
+        public void GetInfoFromService(ServiceObject serviceObject)
         {
             var xml = GetXml(serviceObject);
 
-            _xmlDocs.Add(xml);
+            _xmlDocs.Add(xml);            
 
-            GetImportedFiles();
-
-            return _xmlDocs;
+            GetImportedFiles();              
         }
+
+        //Methods for Parsing
     }
 }
