@@ -8,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Web.Services.Description;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Schema;
 
 namespace KakashiService.Core.Modules.Read
@@ -86,7 +87,7 @@ namespace KakashiService.Core.Modules.Read
             }            
         }
 
-        private void GetImportedFiles()
+        private void AddImportedFiles()
         {
             // check for import tags
 
@@ -97,11 +98,61 @@ namespace KakashiService.Core.Modules.Read
         {
             var xml = GetXml(serviceObject);
 
-            _xmlDocs.Add(xml);            
+            _xmlDocs.Add(xml);
 
-            GetImportedFiles();              
+            AddImportedFiles();
+
+            var parseWsdl = new ParseWSDL(_xmlDocs);
+                                 
+        }        
+    }
+
+    public class ParseWSDL
+    {
+        public List<OperationWSDL> Operations { get; private set; }
+        public List<MessageWSDL> Messages { get; private set; }
+        public List<ElementWSDL> Schemas { get; private set; }
+        public String ServiceAddress { get; private set; }
+
+        public ParseWSDL(List<XmlDocument> _xmls)
+        {
+            Operations = new List<OperationWSDL>();
+            Messages = new List<MessageWSDL>();
+            Schemas = new List<ElementWSDL>();
+            GetDataFromWSDL(_xmls);
         }
 
-        //Methods for Parsing
+        public void GetDataFromWSDL(List<XmlDocument> xmls)
+        {
+            // merge all Xml in One
+            var xml = xmls.First();
+            
+            // Get operations from PortType
+            foreach(XElement xn in portType)
+            {
+
+            }
+
+            // Get messages using operations
+
+        }        
+    }
+
+    public class OperationWSDL
+    {
+        public String Name { get; set; }
+        public String Input { get; set; }
+        public String Output { get; set; }
+    }
+
+    public class MessageWSDL
+    {
+        public String Name { get; set; }
+        public String Element { get; set; }        
+    }
+
+    public class ElementWSDL
+    {
+
     }
 }
