@@ -2,10 +2,8 @@
 using KakashiService.Web.ViewModel;
 using System;
 using System.IO;
-using System.Threading;
 using System.Web.Mvc;
 using KakashiService.Core.Entities;
-using KakashiService.Core.Modules;
 
 namespace KakashiService.Web.Controllers
 {

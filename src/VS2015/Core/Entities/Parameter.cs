@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Xml.Linq;
-using KakashiService.Core.Modules;
-using KakashiService.Core.Modules.Read;
 
 namespace KakashiService.Core.Entities
 {

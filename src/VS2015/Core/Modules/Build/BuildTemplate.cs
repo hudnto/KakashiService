@@ -1,9 +1,6 @@
 ﻿using KakashiService.Core.Entities;
-using System;
-using System.IO;
 using System.Linq;
 using System.Management.Automation;
-using System.Reflection;
 
 namespace KakashiService.Core.Modules.Build
 {

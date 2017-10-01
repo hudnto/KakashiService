@@ -1,5 +1,4 @@
-﻿using System.IO;
-using KakashiService.Core.Entities;
+﻿using KakashiService.Core.Entities;
 using KakashiService.Core.Modules.Read;
 
 namespace KakashiService.Core.Services
