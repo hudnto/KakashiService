@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace KakashiService.Core.Entities
 {
-    public class Functions
+    public class Function
     {
-        public Functions()
+        public Function()
         {
             ReturnType = "";
             Parameters = new List<Parameter>();

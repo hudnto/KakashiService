@@ -34,7 +34,7 @@ namespace KakashiService.Core.Modules.Create
             }
         }
 
-        public static void FileIService(List<Functions> functions)
+        public static void FileIService(List<Function> functions)
         {
             var value = Util.GetTemplate("TemplatesFile.Interface.txt");
 
@@ -80,7 +80,7 @@ namespace KakashiService.Core.Modules.Create
             }
         }
 
-        public static void FileService(List<Functions> functions, String originService)
+        public static void FileService(List<Function> functions, String originService)
         {
             var value = Util.GetTemplate("TemplatesFile.Service.txt");
 

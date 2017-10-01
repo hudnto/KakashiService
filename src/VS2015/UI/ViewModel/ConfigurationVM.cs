@@ -27,7 +27,7 @@ namespace KakashiService.Web.ViewModel
             {
                 ServiceName = "t1";
                 Port = 10001;
-                Url = "http://localhost:55444/ServiceTest.svc?singleWsdl";
+                Url = "http://www.dneonline.com/calculator.asmx?wsdl";
                 BuildPath = "C:\\inetpub\\kakashi\\source\\t1";
                 Namespace = "Kakashi";
             }

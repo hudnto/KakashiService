@@ -57,9 +57,11 @@
     <Compile Include="Entities\Parameter.cs" />
     <Compile Include="Modules\Build\BuildSite.cs" />
     <Compile Include="Modules\Build\BuildTemplate.cs" />
+    <Compile Include="Modules\Build\Extensions.cs" />
     <Compile Include="Modules\Create\CreateFile.cs" />
-    <Compile Include="Entities\Functions.cs" />
+    <Compile Include="Entities\Function.cs" />
     <Compile Include="Entities\ServiceObject.cs" />
+    <Compile Include="Modules\Read\ParseWsdl.cs" />
     <Compile Include="Modules\Read\ReadServiceInfo.cs" />
     <Compile Include="Modules\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
