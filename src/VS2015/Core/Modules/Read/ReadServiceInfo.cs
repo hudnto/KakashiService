@@ -71,7 +71,7 @@ namespace KakashiService.Core.Modules.Read
 
         private XmlDocument GetXml(ServiceObject serviceObject)
         {
-            if(serviceObject.FileStream == null)
+            if (serviceObject.FileStream == null)
             {
                 return GetXmlFromUrl(serviceObject.Url);
             }
@@ -96,6 +96,27 @@ namespace KakashiService.Core.Modules.Read
             var parseWsdl = new ParseWsdl(_xmlDocs);
             serviceObject.Functions = parseWsdl.Functions;
             serviceObject.OriginServiceName = parseWsdl.ServiceAddress;
-        }        
+            RemoveStrangeThings(serviceObject);
+        }
+
+        public void RemoveStrangeThings(ServiceObject serviceObject)
+        {
+            for (int i = serviceObject.Functions.Count - 1; i >= 0; i--)
+            {
+                var isToRemove = false;
+                if (serviceObject.Functions[i].ReturnType.Contains("Array"))
+                    isToRemove = true;
+                foreach (var parameters in serviceObject.Functions[i].Parameters)
+                {
+                    if (parameters.Type.Contains("Array"))
+                    {
+                        isToRemove = true;
+                        break;
+                    }
+                }
+                if (isToRemove)
+                    serviceObject.Functions.RemoveAt(i);
+            }
+        }
     }
 }
