@@ -7,9 +7,16 @@ namespace KakashiService.UnitTest
     public class ReadModule
     {
         [TestMethod]
-        public void ReadXML1AndChecks()
+        public void ReadXML1AndCheck()
         {
+            // Arrange
+            // Load XML
 
+            // Act
+            // Read the service
+
+            // Assert
+            // Check if the operations are comming correctly
         }
     }
 }
