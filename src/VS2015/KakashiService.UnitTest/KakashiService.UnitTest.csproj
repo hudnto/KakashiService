@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ResourceFiles\Service1.xml" />
+    <Content Include="ResourceFiles\Service2.xml" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

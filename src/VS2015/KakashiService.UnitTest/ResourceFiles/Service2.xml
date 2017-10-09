@@ -1,0 +1,309 @@
+﻿<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="ServiceTest" targetNamespace="http://tempuri.org/">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <xs:import namespace="http://schemas.datacontract.org/2004/07/WCF_TestSamples"/>
+      <xs:element name="AllTypes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="v1" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="v2" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="v3" type="xs:decimal"/>
+            <xs:element minOccurs="0" name="v4" type="xs:dateTime"/>
+            <xs:element minOccurs="0" name="v5" nillable="true" type="xs:string"/>
+            <xs:element minOccurs="0" name="v6" type="xs:int"/>
+            <xs:element minOccurs="0" name="v7" type="xs:long"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="AllTypesResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="AllTypesResult" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="Update">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/WCF_TestSamples" minOccurs="0" name="UpdateResult" nillable="true" type="q1:Obj1"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateEmpty">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="UpdateEmptyResponse">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OutOperation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="a" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="OutOperationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="OutOperationResult" type="xs:int"/>
+            <xs:element minOccurs="0" name="b" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RefOperation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="a" type="xs:int"/>
+            <xs:element minOccurs="0" name="b" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="RefOperationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="RefOperationResult" type="xs:int"/>
+            <xs:element minOccurs="0" name="b" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="VoidOutOperation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="a" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="VoidOutOperationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="b" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="VoidRefOperation">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="a" type="xs:int"/>
+            <xs:element minOccurs="0" name="b" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="VoidRefOperationResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="b" type="xs:int"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/">
+      <xs:element name="anyType" nillable="true" type="xs:anyType"/>
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI"/>
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+      <xs:element name="boolean" nillable="true" type="xs:boolean"/>
+      <xs:element name="byte" nillable="true" type="xs:byte"/>
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime"/>
+      <xs:element name="decimal" nillable="true" type="xs:decimal"/>
+      <xs:element name="double" nillable="true" type="xs:double"/>
+      <xs:element name="float" nillable="true" type="xs:float"/>
+      <xs:element name="int" nillable="true" type="xs:int"/>
+      <xs:element name="long" nillable="true" type="xs:long"/>
+      <xs:element name="QName" nillable="true" type="xs:QName"/>
+      <xs:element name="short" nillable="true" type="xs:short"/>
+      <xs:element name="string" nillable="true" type="xs:string"/>
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte"/>
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt"/>
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/>
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort"/>
+      <xs:element name="char" nillable="true" type="tns:char"/>
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int"/>
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration"/>
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/>
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S"/>
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid"/>
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:attribute name="FactoryType" type="xs:QName"/>
+      <xs:attribute name="Id" type="xs:ID"/>
+      <xs:attribute name="Ref" type="xs:IDREF"/>
+    </xs:schema>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/WCF_TestSamples" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/WCF_TestSamples">
+      <xs:complexType name="Obj1">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="v1" type="xs:boolean"/>
+          <xs:element minOccurs="0" name="v2" nillable="true" type="tns:Obj2"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Obj1" nillable="true" type="tns:Obj1"/>
+      <xs:complexType name="Obj2">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="v1" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="v2" type="xs:int"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="Obj2" nillable="true" type="tns:Obj2"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="IServiceTest_AllTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:AllTypes"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_AllTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AllTypesResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_Update_InputMessage">
+    <wsdl:part name="parameters" element="tns:Update"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_Update_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_UpdateEmpty_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEmpty"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_UpdateEmpty_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateEmptyResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_OutOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:OutOperation"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_OutOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:OutOperationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_RefOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:RefOperation"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_RefOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RefOperationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_VoidOutOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:VoidOutOperation"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_VoidOutOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VoidOutOperationResponse"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_VoidRefOperation_InputMessage">
+    <wsdl:part name="parameters" element="tns:VoidRefOperation"/>
+  </wsdl:message>
+  <wsdl:message name="IServiceTest_VoidRefOperation_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VoidRefOperationResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="IServiceTest">
+    <wsdl:operation name="AllTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceTest/AllTypes" message="tns:IServiceTest_AllTypes_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceTest/AllTypesResponse" message="tns:IServiceTest_AllTypes_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceTest/Update" message="tns:IServiceTest_Update_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceTest/UpdateResponse" message="tns:IServiceTest_Update_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEmpty">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceTest/UpdateEmpty" message="tns:IServiceTest_UpdateEmpty_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceTest/UpdateEmptyResponse" message="tns:IServiceTest_UpdateEmpty_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="OutOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceTest/OutOperation" message="tns:IServiceTest_OutOperation_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceTest/OutOperationResponse" message="tns:IServiceTest_OutOperation_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="RefOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceTest/RefOperation" message="tns:IServiceTest_RefOperation_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceTest/RefOperationResponse" message="tns:IServiceTest_RefOperation_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="VoidOutOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceTest/VoidOutOperation" message="tns:IServiceTest_VoidOutOperation_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceTest/VoidOutOperationResponse" message="tns:IServiceTest_VoidOutOperation_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="VoidRefOperation">
+      <wsdl:input wsaw:Action="http://tempuri.org/IServiceTest/VoidRefOperation" message="tns:IServiceTest_VoidRefOperation_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/IServiceTest/VoidRefOperationResponse" message="tns:IServiceTest_VoidRefOperation_OutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IServiceTest" type="tns:IServiceTest">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="AllTypes">
+      <soap:operation soapAction="http://tempuri.org/IServiceTest/AllTypes" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <soap:operation soapAction="http://tempuri.org/IServiceTest/Update" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateEmpty">
+      <soap:operation soapAction="http://tempuri.org/IServiceTest/UpdateEmpty" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OutOperation">
+      <soap:operation soapAction="http://tempuri.org/IServiceTest/OutOperation" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RefOperation">
+      <soap:operation soapAction="http://tempuri.org/IServiceTest/RefOperation" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VoidOutOperation">
+      <soap:operation soapAction="http://tempuri.org/IServiceTest/VoidOutOperation" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="VoidRefOperation">
+      <soap:operation soapAction="http://tempuri.org/IServiceTest/VoidRefOperation" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiceTest">
+    <wsdl:port name="BasicHttpBinding_IServiceTest" binding="tns:BasicHttpBinding_IServiceTest">
+      <soap:address location="http://localhost:55444/ServiceTest.svc"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
