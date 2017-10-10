@@ -43,7 +43,6 @@ namespace KakashiService.Core.Modules.Read
             try
             {
                 UriBuilder uriBuilder = new UriBuilder(url);
-                uriBuilder.Query = "WSDL";
 
                 HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(uriBuilder.Uri);
                 webRequest.ContentType = "text/xml;charset=\"utf-8\"";

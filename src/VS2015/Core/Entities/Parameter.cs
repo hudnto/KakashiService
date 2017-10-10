@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Xml.Linq;
 
 namespace KakashiService.Core.Entities
@@ -32,17 +33,24 @@ namespace KakashiService.Core.Entities
                 case "datetime": return "DateTime";
                 case "boolean": return "bool";
                 case "guid": return "Guid";
-                case "": return "void"; 
+                case "": return "void";
             }
             return variable;
         }
 
-        public static Parameter GetElementFromWSDL(XElement xElement)
+        public static Parameter GetElementFromWSDL(XElement element, XNamespace xmlNamespace)
         {
-            var element = new Parameter();
-            element.Name = xElement.Attribute("name").Value;
-            element.Type = NormalizeVariable(xElement.Attribute("type").Value);
-            return element;
+            //var tempElements = element.Descendants(xmlNamespace + "element");
+            //if (tempElements != null && tempElements.Count() > 0)
+            //    element = tempElements.FirstOrDefault();   
+            if (element == null || element.Attribute("type") == null)
+                return null;
+
+            var parameter = new Parameter();
+            parameter.Name = element.Attribute("name").Value;
+            parameter.Type = NormalizeVariable(element.Attribute("type").Value);
+
+            return parameter;
         }
     }
 }
