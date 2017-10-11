@@ -20,6 +20,7 @@ namespace KakashiService.Core.Entities
         public String LogPath { get; set; }
         public String IISPath { get; set; }
         public String OriginServiceName { get; set; }
+        public String ServiceClientName { get; set; }
         public List<Function> Functions { get; set; }
         public List<ObjectType> ObjectTypes { get; set; }
     }

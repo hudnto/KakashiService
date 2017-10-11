@@ -10,13 +10,13 @@ namespace KakashiService.Core.Modules.Read
     public class ParseWsdl
     {
         public String ServiceAddress { get; }
+        public String ServiceClientName { get; set;}
         public List<Function> Functions { get; }
 
         public ParseWsdl(List<XmlDocument> xmls)
         {
             try
             {
-                var tempCounter = 0;
                 var xd = xmls.First().ToXDocument();
                 Functions = new List<Function>();
 
@@ -99,10 +99,12 @@ namespace KakashiService.Core.Modules.Read
                             }
                         }
                     }
-                    tempCounter++;
                     Functions.Add(func);
                 }
                 ServiceAddress = definitions.Descendants(wsdlNamespace + "service").First().Attribute("name").Value;
+                ServiceClientName = definitions.Descendants(wsdlNamespace + "portType").First().Attribute("name").Value;
+                if (ServiceClientName[0] == 'I')
+                    ServiceClientName = ServiceClientName.Substring(1);
             } catch(Exception e)
             {
                 throw new Exception("Error on Parsing", e);

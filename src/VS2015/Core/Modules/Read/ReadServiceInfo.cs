@@ -95,6 +95,8 @@ namespace KakashiService.Core.Modules.Read
             var parseWsdl = new ParseWsdl(_xmlDocs);
             serviceObject.Functions = parseWsdl.Functions;
             serviceObject.OriginServiceName = parseWsdl.ServiceAddress;
+            serviceObject.ServiceClientName = parseWsdl.ServiceClientName;
+            // TODO Fix this
             RemoveStrangeThings(serviceObject);
         }
 

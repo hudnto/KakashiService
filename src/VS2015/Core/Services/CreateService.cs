@@ -7,7 +7,7 @@ namespace KakashiService.Core.Services
     {
         public void Execute(ServiceObject service)
         {
-            CreateFile.SetConfig(service.Path, service.Name, service.Namespace, service.LogPath);
+            CreateFile.SetConfig(service);
             CreateFile.FileIService(service.Functions);
             CreateFile.FileService(service.Functions, service.OriginServiceName);
             CreateFile.FileServiceSVC();
