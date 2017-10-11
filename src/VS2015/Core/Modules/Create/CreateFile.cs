@@ -93,12 +93,12 @@ namespace KakashiService.Core.Modules.Create
             {
                 foreach (var function in functions)
                 {
-                    string arguments = String.Empty;
+                    string argumentsResponse = String.Empty;
                     string argumentsSimple = String.Empty;
                     string parametersValue = String.Empty;
                     string parametersCountString = String.Empty;
+                    string initializeParameters = String.Empty;
                     int index = 0;
-
 
                     // Creating template parameters
                     for (int i = 0; i < function.Parameters.Count; i++)
@@ -108,17 +108,24 @@ namespace KakashiService.Core.Modules.Create
                         var comma = function.Parameters.Count == i + 1 ? String.Empty : ", ";
                         parametersValue = parametersValue + String.Format("{0} {1}{2}", type, name, comma);
                         parametersCountString = parametersCountString + "{" + (i + 2) + "}";
+                        if(type.Contains(" ") && type.Contains("out"))
+                        {
+                            var secondType = type.Split(' ')[1];
+                            initializeParameters = "\n"+InitializeOut(name, secondType) +"\n"+initializeParameters;
+                        }
                         argumentsSimple = argumentsSimple + String.Format("{0}{1}", name, comma);
                         if (type.Contains(" ") && type.Split(' ')[0] == "ref")
                             name = "ref " + name;
-                        arguments = arguments + String.Format("{0}{1}", name, comma);
+                        if (type.Contains(" ") && type.Split(' ')[0] == "out")
+                            name = "out " + name;
+                        argumentsResponse = argumentsResponse + String.Format("{0}{1}", name, comma);
                         index++;
                     }
 
                     functionValue = functionValue + String.Format("public {0} {1} ({2})", function.ReturnType, function.Name, parametersValue) + "{\n";
                     if (function.ReturnType == "void")
                     {
-                        var client = String.Format("_client.{0}(", function.Name) + arguments + ");\n}\n\n";
+                        var client = String.Format("_client.{0}(", function.Name) + argumentsResponse + ");\n}\n\n";
                         functionValue = functionValue + client;
                     }
                     else
@@ -127,10 +134,10 @@ namespace KakashiService.Core.Modules.Create
                         var keyFunction = "var key = String.Format(\"{0}{1}" + parametersCountString + "\", \"" + _serviceName + "\",\"" + function.Name + "\"" + argFunction + ");\n";
                         var valueFunction = "var value = _db.StringGet(key);\n";
                         var ifFunction = " if(value.IsNullOrEmpty){\n";
-                        var responseFunction = String.Format("var response = _client.{0}({1});", function.Name, arguments) + "\n";
+                        var responseFunction = String.Format("var response = _client.{0}({1});", function.Name, argumentsResponse) + "\n";
                         var tempFunction = String.Format("_db.StringSet(key, ConverterType.ConvertToString<{0}>(response));", function.ReturnType) + "\nreturn response;\n}\n";
                         var elseFunction = String.Format("\nreturn ConverterType.ConvertFromString<{0}>(value);", function.ReturnType) + "\n}\n";
-                        functionValue = functionValue + keyFunction + valueFunction + ifFunction + responseFunction + tempFunction + elseFunction;
+                        functionValue = functionValue + initializeParameters + keyFunction + valueFunction + ifFunction + responseFunction + tempFunction + elseFunction;
                     }
                 }
 
@@ -145,6 +152,21 @@ namespace KakashiService.Core.Modules.Create
                 throw new Exception("Error on Creating Service File", e);
             }
         }
+
+        private static String InitializeOut(String name, String type)
+        {
+            var rightPart = " new "+type+"()";
+            switch (type)
+            {
+                case "int": rightPart = "0";break;
+                case "long": rightPart = "0f"; break;
+                case "float": rightPart = "0.0"; break;
+                case "decimal": rightPart = "0.0m"; break;
+                case "string": rightPart = "String.Empty"; break;
+            }
+            return String.Format("{0} = {1};", name, rightPart);
+        }
+
 
         public static void FileServiceSVC()
         {
