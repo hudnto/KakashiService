@@ -1,6 +1,7 @@
 using System;
 using StackExchange.Redis;
 using NGT_TypeConverter;
+using Newtonsoft.Json;
 
 namespace {namespace} {
     public class {serviceName} : I{serviceName}
@@ -8,7 +9,7 @@ namespace {namespace} {
 		public {serviceClient}Client _client;
 		private IDatabase _db;
 		public {serviceName}(){
-			_client = new {serviceClient}Client("{originService}");
+			_client = new {serviceClient}Client("{serviceClient}");
 			ConnectionMultiplexer conn = ConnectionMultiplexer.Connect("localhost");
 			_db = conn.GetDatabase();
 		}
