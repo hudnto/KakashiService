@@ -9,9 +9,9 @@ namespace KakashiService.Core.Modules.Read
 {
     public class ParseWsdl
     {
-        public String ServiceAddress { get; }
-        public String ServiceClientName { get; set;}
-        public List<Function> Functions { get; }
+        public String ServiceAddress { get; private set; }
+        public String ServiceClientName { get; set; }
+        public List<Function> Functions { get; private set; }
 
         public ParseWsdl(List<XmlDocument> xmls)
         {
