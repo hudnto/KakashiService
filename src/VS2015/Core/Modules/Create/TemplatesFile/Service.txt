@@ -1,6 +1,5 @@
 using System;
 using StackExchange.Redis;
-using NGT_TypeConverter;
 using Newtonsoft.Json;
 
 namespace {namespace} {
