@@ -97,7 +97,7 @@ namespace KakashiService.Core.Modules.Read
             serviceObject.OriginServiceName = parseWsdl.ServiceAddress;
             serviceObject.ServiceClientName = parseWsdl.ServiceClientName;
             // TODO Fix this
-            RemoveStrangeThings(serviceObject);
+            //RemoveStrangeThings(serviceObject);
         }
 
         public void RemoveStrangeThings(ServiceObject serviceObject)
