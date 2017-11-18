@@ -96,27 +96,32 @@ namespace KakashiService.Core.Modules.Read
             serviceObject.Functions = parseWsdl.Functions;
             serviceObject.OriginServiceName = parseWsdl.ServiceAddress;
             serviceObject.ServiceClientName = parseWsdl.ServiceClientName;
-            // TODO Fix this
-            RemoveStrangeThings(serviceObject);
+            adjustArrayOf(serviceObject);
         }
 
-        public void RemoveStrangeThings(ServiceObject serviceObject)
+        public void adjustArrayOf(ServiceObject serviceObject)
         {
             for (int i = serviceObject.Functions.Count - 1; i >= 0; i--)
             {
-                var isToRemove = false;
-                if (serviceObject.Functions[i].ReturnType.Contains("Array"))
-                    isToRemove = true;
+                if (serviceObject.Functions[i].ReturnType.StartsWith("ArrayOf"))
+                {
+                    var temp = serviceObject.Functions[i].ReturnType;
+                    temp = temp.Substring(7);
+                    if (temp.Equals("guid", StringComparison.CurrentCultureIgnoreCase))
+                        temp = "string";
+                    serviceObject.Functions[i].ReturnType = temp + "[]";
+                }
                 foreach (var parameters in serviceObject.Functions[i].Parameters)
                 {
-                    if (parameters.Type.Contains("Array"))
+                    if (parameters.Type.StartsWith("ArrayOf"))
                     {
-                        isToRemove = true;
-                        break;
+                        var temp = parameters.Type;
+                        temp = temp.Substring(7);
+                        if (temp.Equals("guid", StringComparison.CurrentCultureIgnoreCase))
+                            temp = "string";
+                        parameters.Type = temp + "[]";
                     }
-                }
-                if (isToRemove)
-                    serviceObject.Functions.RemoveAt(i);
+                }             
             }
         }
     }

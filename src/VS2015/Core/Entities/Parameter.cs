@@ -32,7 +32,7 @@ namespace KakashiService.Core.Entities
                 case "dateTime":
                 case "datetime": return "DateTime";
                 case "boolean": return "bool";
-                case "guid": return "Guid";
+                case "guid": return "string";
                 case "": return "void";
             }
             return variable;
