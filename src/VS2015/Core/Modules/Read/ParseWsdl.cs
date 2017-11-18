@@ -101,7 +101,8 @@ namespace KakashiService.Core.Modules.Read
                     }
                     Functions.Add(func);
                 }
-                ServiceAddress = definitions.Descendants(wsdlNamespace + "service").First().Attribute("name").Value;
+                var serviceNode = definitions.Descendants(wsdlNamespace + "service").First();
+                ServiceAddress = serviceNode.Descendants(wsdlNamespace + "port").First().Attribute("name").Value;
                 ServiceClientName = definitions.Descendants(wsdlNamespace + "portType").First().Attribute("name").Value;
                 if (ServiceClientName[0] == 'I')
                     ServiceClientName = ServiceClientName.Substring(1);

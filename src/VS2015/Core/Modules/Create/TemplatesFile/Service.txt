@@ -8,7 +8,7 @@ namespace {namespace} {
 		public {serviceClient}Client _client;
 		private IDatabase _db;
 		public {serviceName}(){
-			_client = new {serviceClient}Client("{serviceClient}");
+			_client = new {serviceClient}Client("{originService}");
 			ConnectionMultiplexer conn = ConnectionMultiplexer.Connect("localhost");
 			_db = conn.GetDatabase();
 		}
