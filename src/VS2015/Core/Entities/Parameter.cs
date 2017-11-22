@@ -40,11 +40,11 @@ namespace KakashiService.Core.Entities
 
         public static Parameter GetElementFromWSDL(XElement element, XNamespace xmlNamespace)
         {
-            if (element == null)
+            if (element == null || element.Attribute("name") == null)
                 return null;
             var parameter = new Parameter();
             if (element.Attribute("type") == null)
-            {
+            {                
                 parameter.Name = element.Attribute("name").Value;
                 var appInfo = element.Descendants(xmlNamespace+ "appinfo").FirstOrDefault();
                 var type = appInfo.Descendants().FirstOrDefault();

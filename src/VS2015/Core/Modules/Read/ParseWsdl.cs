@@ -76,7 +76,7 @@ namespace KakashiService.Core.Modules.Read
                             func.ReturnType = attribute == null ? "void" : Parameter.NormalizeVariable(attribute.Value);
                         }
 
-                        var otherElements = returnElements.Where(a => !a.Attribute("name").Value.Contains(elementNameInput)).ToList();
+                        var otherElements = returnElements.Where(a => a.Attribute("name") == null || !a.Attribute("name").Value.Contains(elementNameInput)).ToList();
                         if (otherElements != null && otherElements.Count > 0)
                         {
                             foreach (var elem in otherElements)
