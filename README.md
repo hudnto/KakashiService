@@ -1,4 +1,6 @@
-# KakashiService
+# KakashiService 
+[![Build status](https://ci.appveyor.com/api/projects/status/t46ny58sba6hgrl1?svg=true)](https://ci.appveyor.com/project/luancaius/kakashiservice)
+
 A service that clones other services. 
 This project is for everyone that depends on a service that keep falling or wants to cache a service.
 (Inspired in the ninja Hatake Kakashi from Naruto)
